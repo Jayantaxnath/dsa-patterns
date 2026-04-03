@@ -38,12 +38,14 @@ function generateId(str) {
 // =========================================================================
 
 function parseMarkdown(mdText, filename) {
+  const baseFilename = filename.split('/').pop();
+  
   // Split by markdown heading level 2 (## ), which seems to separate problems
   const blocks = mdText.split(/\n## /);
   
   const headerBlock = blocks[0];
   const titleMatch = headerBlock.match(/^#\s+(.*)/);
-  const patternTitle = titleMatch ? titleMatch[1].trim() : filename.replace('.md', '');
+  const patternTitle = titleMatch ? titleMatch[1].trim() : baseFilename.replace('.md', '');
   
   // Everything after the first '#' heading up to the next heading is description
   const description = headerBlock.replace(/^#\s+.*\n/, '').trim();
@@ -62,7 +64,7 @@ function parseMarkdown(mdText, filename) {
     }
     
     const cleanTitle = title.replace(/[🌟🔎]/g, '').trim();
-    const id = generateId(filename + cleanTitle);
+    const id = generateId(baseFilename + cleanTitle);
     
     problems.push({
       id,
