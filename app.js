@@ -2,9 +2,14 @@
 // App State & Data Management
 // =========================================================================
 
+function getSafeProgress() {
+  try { return JSON.parse(localStorage.getItem('dsaProgress')) || {}; } 
+  catch (e) { return {}; }
+}
+
 const AppState = {
   patterns: [],
-  progress: JSON.parse(localStorage.getItem('dsaProgress')) || {},
+  progress: getSafeProgress(),
   activePatternIndex: null,
   activeProblemId: null,
   filter: 'all', // 'all', 'unsolved', 'solved', 'revision'
@@ -315,6 +320,7 @@ function setupEventListeners() {
   let isResizing = false;
 
   resizer.addEventListener('mousedown', (e) => {
+    e.preventDefault(); // Prevents accidental text selection while dragging
     isResizing = true;
     detailsPanel.classList.add('resizing');
     document.body.style.cursor = 'ew-resize';
