@@ -10,8 +10,8 @@ These are my notes in <b>Javascript</b> from a [course](https://www.educative.io
 |<b>[Pattern 4: Merge Intervals](./pattern/04%20Merge%20Intervals.md)</b>|<b>[Pattern 12: Bitwise XOR](./pattern/10%20Bitwise%20XOR.md)</b>|
 |<b>[Pattern 5: Cyclic Sort](./pattern/05%20Cyclic%20Sort.md)</b>|<b>[Pattern 13: Top 'K' Elements](./pattern/13%20Top%20'K'%20Elements.md)</b>|
 |<b>[Pattern 6: In-place Reversal of a LinkedList](./pattern/06%20In-place%20Reversal%20of%20a%20LinkedList.md)</b>|<b>[Pattern 14: K-way merge](./pattern/14%20K-way%20merge.md)</b>|
-|<b>[Pattern 7: Tree Breadth First Search](./pattern/07%20Tree%20Breadth%20First%20Search.md)</b>|<b>[Pattern 15: 0/1 Knapsack (Dynamic Programming)](./pattern/15%200-1%20Knapsack%20(Dynamic%20Programming).md).md)</b>|
-|<b>[Pattern 8: Depth First Search (DFS)](./pattern/08%20Tree%20Depth%20First%20Search.md)</b>|<b>[Pattern 16: Topological Sort (Graph)](./pattern/16%20Topological%20Sort%20(Graph).md).md)</b>|
+|<b>[Pattern 7: Tree Breadth First Search](./pattern/07%20Tree%20Breadth%20First%20Search.md)</b>|<b>[Pattern 15: 0/1 Knapsack (Dynamic Programming)](./pattern/15%200-1%20Knapsack%20(Dynamic%20Programming).md)</b>|
+|<b>[Pattern 8: Depth First Search (DFS)](./pattern/08%20Tree%20Depth%20First%20Search.md)</b>|<b>[Pattern 16: Topological Sort (Graph)](./pattern/16%20Topological%20Sort%20(Graph).md)</b>|
 
 #### 🌴 Questions tagged <b>Amazon</b>
 
@@ -127,14 +127,14 @@ Whenever we are given `K` sorted arrays, we can use a <b>Heap</b> to efficiently
 <!-- ### ❗ NOTE
 
 Although this course uses <b>Heaps</b> to solve <b>Top 'K' Elements</b> problems, <b>JavaScript</b> does not have a built in method for <b>Heaps/Priority Queues</b>. It can be very time consuming to implement a <b>Heap class</b> from scratch, especially during an interview. After reviewing the <i>JavaScript</i> solutions on <i>Leetcode</i> the most effecient way to solve a <b>Top 'K' Elements</b> problem is usually with <b>[QuickSort](https://github.com/Chanda-Abdul/leetcode/blob/master/0%20%E2%9D%97Sort%20Algorithms.md#-quick-sort)</b>, <b>[BinarySearch](https://github.com/Chanda-Abdul/leetcode/blob/master/0%20%E2%9D%97Sort%20Algorithms.md#binary-search)</b>, <b>[BucketSort](https://initjs.org/bucket-sort-in-javascript-dc040b8f0058)</b>, <b>[Greedy Algorithms](https://github.com/Chanda-Abdul/Grokking-Algorithm-Book-Notes/blob/main/8.%20Greedy%20Algoritms.md)</b>, or <b>[HashMaps](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map)</b>.  -->
-## [Pattern 15: 0/1 Knapsack (Dynamic Programming)](./pattern/15%200-1%20Knapsack%20(Dynamic%20Programming).md).md)
+## [Pattern 15: 0/1 Knapsack (Dynamic Programming)](./pattern/15%200-1%20Knapsack%20(Dynamic%20Programming).md)
 <b>0/1 Knapsack pattern</b> is based on the famous problem with the same name which is efficiently solved using <b>Dynamic Programming (DP)</b>.
 
 In this pattern, we will go through a set of problems to develop an understanding of <b>DP</b>. We will always start with a <b>brute-force</b> recursive solution to see the overlapping subproblems, i.e., realizing that we are solving the same problems repeatedly.
 
 After the recursive solution, we will modify our algorithm to apply advanced techniques of <b>Memoization</b> and <b>Bottom-Up Dynamic Programming</b> to develop a complete understanding of this pattern.
 
-## [Pattern 16: 🔎 Topological Sort (Graph)](./pattern/16%20Topological%20Sort%20(Graph).md).md)
+## [Pattern 16: 🔎 Topological Sort (Graph)](./pattern/16%20Topological%20Sort%20(Graph).md)
 <b>Topological Sort</b> is used to find a linear ordering of elements that have dependencies on each other. For example, if event `B` is dependent on event `A`, `A` comes before `B` in topological ordering.
 
 
