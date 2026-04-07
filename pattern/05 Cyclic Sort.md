@@ -26,22 +26,22 @@ Instead, what if we iterate the array one number at a time, and if the current n
 
 ```js
 function cyclicSort(nums) {
-  let i = 0;
+ let i = 0;
 
-  while (i < nums.length) {
-    const j = nums[i] - 1; //nums[i] = 3, 3-1 = 2
-    if (nums[i] !== nums[j]) {
-      //3 !== 2
-      //swap
-      // [nums[i], nums[j]] = [nums[j], nums[i]]
-      let temp = nums[i];
-      nums[i] = nums[j];
-      nums[j] = temp;
-    } else {
-      i++;
-    }
-  }
-  return nums;
+ while (i < nums.length) {
+ const j = nums[i] - 1; //nums[i] = 3, 3-1 = 2
+ if (nums[i] !== nums[j]) {
+ //3 !== 2
+ //swap
+ // [nums[i], nums[j]] = [nums[j], nums[i]]
+ let temp = nums[i];
+ nums[i] = nums[j];
+ nums[j] = temp;
+ } else {
+ i++;
+ }
+ }
+ return nums;
 }
 
 cyclicSort([3, 1, 5, 4, 2]);
@@ -63,35 +63,35 @@ This problem follows the <b>[Cyclic Sort pattern](#pattern-5-cyclic-sort)</b>. S
 However, there are two differences with <b>[Cyclic Sort](#pattern-5-cyclic-sort)</b>:
 
 1. In this problem, the numbers are ranged from `0` to `n`, compared to `1` to `n` in the <b>[Cyclic Sort](#pattern-5-cyclic-sort)</b>. This will make two changes in our algorithm:
-   - In this problem, each number should be equal to its index, compared to `index - 1` in the <b>[Cyclic Sort](#pattern-5-cyclic-sort)</b>. Therefore => `nums[i] == nums[nums[i]]`
-   - Since the array will have `n` numbers, which means array indices will range from `0` to `n-1`. Therefore, we will ignore the number `n` as we can’t place it in the array, so => `nums[i] < nums.length`
+ - In this problem, each number should be equal to its index, compared to `index - 1` in the <b>[Cyclic Sort](#pattern-5-cyclic-sort)</b>. Therefore => `nums[i] == nums[nums[i]]`
+ - Since the array will have `n` numbers, which means array indices will range from `0` to `n-1`. Therefore, we will ignore the number `n` as we can’t place it in the array, so => `nums[i] < nums.length`
 2. Say we are at index `i`. If we swap the number at index `i` to place it at the correct index, we can still have the wrong number at index `i`. This was true in <b>[Cyclic Sort](#pattern-5-cyclic-sort)</b> too. It didn’t cause any problems in <b>[Cyclic Sort](#pattern-5-cyclic-sort)</b> as over there, we made sure to place one number at its correct place in each step, but that wouldn’t be enough in this problem as we have one extra number due to the larger range. Therefore, we will not move to the next number after the swap until we have a correct number at the index `i`.
 
 ```js
 function findMissingNumber(nums) {
-  let i = 0;
-  const n = nums.length;
+ let i = 0;
+ const n = nums.length;
 
-  //sort first
-  while (i < n) {
-    let j = nums[i];
-    if (nums[i] < n && nums[i] !== nums[j]) {
-      //0 < 4 && 0 !== 4
-      //swap
-      [nums[i], nums[j]] = [nums[j], nums[i]];
-    } else {
-      i++;
-    }
-  }
+ //sort first
+ while (i < n) {
+ let j = nums[i];
+ if (nums[i] < n && nums[i] !== nums[j]) {
+ //0 < 4 && 0 !== 4
+ //swap
+ [nums[i], nums[j]] = [nums[j], nums[i]];
+ } else {
+ i++;
+ }
+ }
 
-  //find the first number missing from it's index
-  //that will be our required number
-  for (i = 0; i < n; i++) {
-    if (nums[i] !== i) {
-      return i;
-    }
-  }
-  return n;
+ //find the first number missing from it's index
+ //that will be our required number
+ for (i = 0; i < n; i++) {
+ if (nums[i] !== i) {
+ return i;
+ }
+ }
+ return n;
 }
 
 findMissingNumber([4, 0, 3, 1]); //2
@@ -113,28 +113,28 @@ However, we will follow a similar approach though as discussed in <b>[Find the M
 
 ```js
 function findMissingNumbers(nums) {
-  let i = 0;
+ let i = 0;
 
-  while (i < nums.length) {
-    const j = nums[i] - 1;
+ while (i < nums.length) {
+ const j = nums[i] - 1;
 
-    if (nums[i] !== nums[j]) {
-      //swap
-      [nums[i], nums[j]] = [nums[j], nums[i]];
-    } else {
-      i++;
-    }
-  }
+ if (nums[i] !== nums[j]) {
+ //swap
+ [nums[i], nums[j]] = [nums[j], nums[i]];
+ } else {
+ i++;
+ }
+ }
 
-  let missingNumbers = [];
+ let missingNumbers = [];
 
-  for (i = 0; i < nums.length; i++) {
-    if (nums[i] !== i + 1) {
-      missingNumbers.push(i + 1);
-    }
-  }
+ for (i = 0; i < nums.length; i++) {
+ if (nums[i] !== i + 1) {
+ missingNumbers.push(i + 1);
+ }
+ }
 
-  return missingNumbers;
+ return missingNumbers;
 }
 
 findMissingNumbers([2, 3, 1, 8, 2, 3, 5, 1]); //[4, 6, 7], The array should have all numbers from 1 to 8, due to duplicates 4, 6, and 7 are missing.
@@ -155,23 +155,23 @@ This problem follows the <b>[Cyclic Sort pattern](#pattern-5-cyclic-sort)</b> an
 
 ```js
 function findDuplicate(nums) {
-  let i = 0;
+ let i = 0;
 
-  while (i < nums.length) {
-    if (nums[i] !== i + 1) {
-      let j = nums[i] - 1;
-      if (nums[i] !== nums[j]) {
-        //swap
-        [nums[i], nums[j]] = [nums[j], nums[i]];
-      } else {
-        //we have found the duplicate
-        return nums[i];
-      }
-    } else {
-      i++;
-    }
-  }
-  return -1;
+ while (i < nums.length) {
+ if (nums[i] !== i + 1) {
+ let j = nums[i] - 1;
+ if (nums[i] !== nums[j]) {
+ //swap
+ [nums[i], nums[j]] = [nums[j], nums[i]];
+ } else {
+ //we have found the duplicate
+ return nums[i];
+ }
+ } else {
+ i++;
+ }
+ }
+ return -1;
 }
 
 findDuplicate([1, 4, 4, 3, 2]); //4
@@ -188,39 +188,39 @@ While doing the <b>Cyclic Sort</b>, we realized that the array will have a cycle
 
 ```js
 function findDuplicate(nums) {
-  //using fast & slow pointer method
-  let slow = nums[0];
-  let fast = nums[nums[0]];
-  while (slow !== fast) {
-    slow = nums[slow];
-    fast = nums[nums[fast]];
-  }
-  //find the cycle length
-  let current = nums[nums[slow]];
-  let cycleLength = 1;
-  while (current !== nums[slow]) {
-    current = nums[current];
-    cycleLength++;
-  }
+ //using fast & slow pointer method
+ let slow = nums[0];
+ let fast = nums[nums[0]];
+ while (slow !== fast) {
+ slow = nums[slow];
+ fast = nums[nums[fast]];
+ }
+ //find the cycle length
+ let current = nums[nums[slow]];
+ let cycleLength = 1;
+ while (current !== nums[slow]) {
+ current = nums[current];
+ cycleLength++;
+ }
 
-  return findStart(nums, cycleLength);
+ return findStart(nums, cycleLength);
 }
 
 function findStart(nums, cycleLength) {
-  let pointer1 = nums[0];
-  let pointer2 = nums[0];
-  //move pointer2 ahead by cycleLength steps
-  while (cycleLength > 0) {
-    pointer2 = nums[pointer2];
-    cycleLength--;
-  }
-  //increment both pointers until they meet at the start of the cycle
-  while (pointer1 !== pointer2) {
-    pointer1 = nums[pointer1];
-    pointer2 = nums[pointer2];
-  }
+ let pointer1 = nums[0];
+ let pointer2 = nums[0];
+ //move pointer2 ahead by cycleLength steps
+ while (cycleLength > 0) {
+ pointer2 = nums[pointer2];
+ cycleLength--;
+ }
+ //increment both pointers until they meet at the start of the cycle
+ while (pointer1 !== pointer2) {
+ pointer1 = nums[pointer1];
+ pointer2 = nums[pointer2];
+ }
 
-  return pointer1;
+ return pointer1;
 }
 
 findDuplicate([1, 4, 4, 3, 2]); //4
@@ -240,30 +240,30 @@ This problem follows the <b>[Cyclic Sort pattern](#pattern-5-cyclic-sort)</b> an
 
 ```js
 function findAllDuplicates(nums) {
-  let i = 0;
+ let i = 0;
 
-  while (i < nums.length) {
-    //??
-    let j = nums[i] - 1;
+ while (i < nums.length) {
+ //??
+ let j = nums[i] - 1;
 
-    if (nums[i] !== nums[j]) {
-      //swap
-      [nums[i], nums[j]] = [nums[j], nums[i]];
-    } else {
-      i++;
-    }
-  }
+ if (nums[i] !== nums[j]) {
+ //swap
+ [nums[i], nums[j]] = [nums[j], nums[i]];
+ } else {
+ i++;
+ }
+ }
 
-  let duplicateNumbers = [];
+ let duplicateNumbers = [];
 
-  for (i = 0; i < nums.length; i++) {
-    if (nums[i] !== i + 1) {
-      //we have found the duplicate
-      duplicateNumbers.push(nums[i]);
-    }
-  }
+ for (i = 0; i < nums.length; i++) {
+ if (nums[i] !== i + 1) {
+ //we have found the duplicate
+ duplicateNumbers.push(nums[i]);
+ }
+ }
 
-  return duplicateNumbers;
+ return duplicateNumbers;
 }
 
 findAllDuplicates([3, 4, 4, 5, 5]); //[4, 5]
@@ -273,31 +273,31 @@ findAllDuplicates([5, 4, 7, 2, 3, 5, 3]); //[3, 5]
 - The time complexity of the above algorithm is `O(n)`.
 - Ignoring the space required for storing the duplicates, the algorithm runs in constant space `O(1)`.
 
-## 🌟 Find the Corrupt Pair (easy)
+## Find the Corrupt Pair (easy)
 
 > We are given an unsorted array containing `n` numbers taken from the range `1` to `n`. The array originally contained all the numbers from `1` to `n`, but due to a data error, one of the numbers got duplicated which also resulted in one number going missing. Find both these numbers.
 
 ```js
 function findCorruptNumbers(nums) {
-  let i = 0;
+ let i = 0;
 
-  while (i < nums.length) {
-    const j = nums[i] - 1;
-    if (nums[i] !== nums[j]) {
-      //swap
-      [nums[i], nums[j]] = [nums[j], nums[i]];
-    } else {
-      i++;
-    }
-  }
+ while (i < nums.length) {
+ const j = nums[i] - 1;
+ if (nums[i] !== nums[j]) {
+ //swap
+ [nums[i], nums[j]] = [nums[j], nums[i]];
+ } else {
+ i++;
+ }
+ }
 
-  //output => duplicate number(nums[i]) and the missing number(i+1)
-  for (let i = 0; i < nums.length; i++) {
-    if (nums[i] !== i + 1) {
-      return [nums[i], i + 1];
-    }
-  }
-  return [-1, -1];
+ //output => duplicate number(nums[i]) and the missing number(i+1)
+ for (let i = 0; i < nums.length; i++) {
+ if (nums[i] !== i + 1) {
+ return [nums[i], i + 1];
+ }
+ }
+ return [-1, -1];
 }
 
 findCorruptNumbers([3, 1, 2, 5, 2]); //[2, 4], '2' is duplicated and '4' is missing.
@@ -307,7 +307,7 @@ findCorruptNumbers([3, 1, 2, 3, 6, 4]); // [3, 5], '3' is duplicated and '5' is 
 - The time complexity of the above algorithm is `O(n)`.
 - The algorithm runs in constant space `O(1)`.
 
-## 🌟 Find the Smallest Missing Positive Number (medium)
+## Find the Smallest Missing Positive Number (medium)
 
 https://leetcode.com/problems/first-missing-positive/
 
@@ -319,26 +319,26 @@ However, we will follow a similar approach though as discussed in <b>[Find the M
 
 ```js
 function findFirstSmallestMissingPositive(nums) {
-  //try to sort the array
-  let i = 0;
-  let n = nums.length;
+ //try to sort the array
+ let i = 0;
+ let n = nums.length;
 
-  while (i < n) {
-    const j = nums[i] - 1;
-    if (nums[i] !== nums[j] && nums[i] > 0 && nums[i] <= n) {
-      [nums[i], nums[j]] = [nums[j], nums[i]];
-    } else {
-      i++;
-    }
-  }
+ while (i < n) {
+ const j = nums[i] - 1;
+ if (nums[i] !== nums[j] && nums[i] > 0 && nums[i] <= n) {
+ [nums[i], nums[j]] = [nums[j], nums[i]];
+ } else {
+ i++;
+ }
+ }
 
-  for (let i = 0; i < n; i++) {
-    if (nums[i] !== i + 1) {
-      return i + 1;
-    }
-  }
+ for (let i = 0; i < n; i++) {
+ if (nums[i] !== i + 1) {
+ return i + 1;
+ }
+ }
 
-  return nums.length + 1;
+ return nums.length + 1;
 }
 
 findFirstSmallestMissingPositive([-3, 1, 5, 4, 2]); //3, The smallest missing positive number is '3'
@@ -349,15 +349,15 @@ findFirstSmallestMissingPositive([3, 2, 5, 1]); //4
 - The time complexity of the above algorithm is `O(n)`.
 - The algorithm runs in constant space `O(1)`.
 
-## 🌟 Find the First K Missing Positive Numbers (hard)
+## Find the First K Missing Positive Numbers (hard)
 
 https://leetcode.com/problems/kth-missing-positive-number/
 
 > Given an unsorted array containing numbers and a number `K`, find the first `K` missing positive numbers in the array.
 
-This problem follows the <b>[Cyclic Sort pattern](#pattern-5-cyclic-sort)</b> and shares similarities with <b>[Find the Smallest Missing Positive Number](#🌟-find-the-smallest-missing-positive-number-medium)</b>. The only difference is that, in this problem, we need to find the first `K` missing numbers compared to only the first missing number.
+This problem follows the <b>[Cyclic Sort pattern](#pattern-5-cyclic-sort)</b> and shares similarities with <b>[Find the Smallest Missing Positive Number](#-find-the-smallest-missing-positive-number-medium)</b>. The only difference is that, in this problem, we need to find the first `K` missing numbers compared to only the first missing number.
 
-We will follow a similar approach as discussed in <b>[Find the Smallest Missing Positive Number](#🌟-find-the-smallest-missing-positive-number-medium)</b> to place the numbers on their correct indices and ignore all numbers that are out of the range of the array. Once we are done with the <b>Cyclic Sort</b> we will iterate through the array to find indices that do not have the correct numbers.
+We will follow a similar approach as discussed in <b>[Find the Smallest Missing Positive Number](#-find-the-smallest-missing-positive-number-medium)</b> to place the numbers on their correct indices and ignore all numbers that are out of the range of the array. Once we are done with the <b>Cyclic Sort</b> we will iterate through the array to find indices that do not have the correct numbers.
 
 If we are not able to find `K` missing numbers from the array, we need to add additional numbers to the output array. 
 
@@ -385,45 +385,45 @@ From the sorted array we can see that the first missing number is `4` (as we hav
 
 ```js
 function findFirstKMissingPositive(nums, k) {
-  //sort? the input array
-  let i = 0;
-  const n = nums.length;
+ //sort? the input array
+ let i = 0;
+ const n = nums.length;
 
-  while (i < n) {
-    const j = nums[i] - 1;
-    if (nums[i] !== nums[j] && nums[i] <= n && nums[i] > 0) {
-      //swap
-      [nums[i], nums[j]] = [nums[j], nums[i]];
-    } else {
-      i++;
-    }
-  }
+ while (i < n) {
+ const j = nums[i] - 1;
+ if (nums[i] !== nums[j] && nums[i] <= n && nums[i] > 0) {
+ //swap
+ [nums[i], nums[j]] = [nums[j], nums[i]];
+ } else {
+ i++;
+ }
+ }
 
-  const missingNumbers = [];
-  const extraNumbers = new Set();
+ const missingNumbers = [];
+ const extraNumbers = new Set();
 
-  for (let i = 0; i < n; i++) {
-    if (missingNumbers.length < k) {
-      if (nums[i] !== i + 1) {
-        missingNumbers.push(i + 1);
-        extraNumbers.add(nums[i]);
-      }
-    }
-  }
+ for (let i = 0; i < n; i++) {
+ if (missingNumbers.length < k) {
+ if (nums[i] !== i + 1) {
+ missingNumbers.push(i + 1);
+ extraNumbers.add(nums[i]);
+ }
+ }
+ }
 
-  //add the remaining missing numbers
-  let j = 1;
+ //add the remaining missing numbers
+ let j = 1;
 
-  while (missingNumbers.length < k) {
-    const currentNumber = j + n;
-    //ignore if the array contains the current number
-    if (!extraNumbers.has(currentNumber)) {
-      missingNumbers.push(currentNumber);
-    }
-    j++;
-  }
+ while (missingNumbers.length < k) {
+ const currentNumber = j + n;
+ //ignore if the array contains the current number
+ if (!extraNumbers.has(currentNumber)) {
+ missingNumbers.push(currentNumber);
+ }
+ j++;
+ }
 
-  return missingNumbers;
+ return missingNumbers;
 }
 
 findFirstKMissingPositive([3, -1, 4, 5, 5], 3); //[1, 2, 6], The smallest missing positive numbers are 1, 2 and 6.)

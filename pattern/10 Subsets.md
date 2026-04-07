@@ -20,31 +20,31 @@ Given set: `[1, 5, 3]`
 Since the input set has distinct elements, the above steps will ensure that we will not have any duplicate subsets.
 ````js
 function findSubsets(nums) {
-  const subsets = [];
-  
-  //start by adding the empty subset
-  subsets.push([])
-  
-  for(let i = 0; i < nums.length; i++) {
-    const currentNumber = nums[i]
-    
-    //we will take all existing subsets and insert the current
-    //number in them to create new subsets
-    const n = subsets.length
+ const subsets = [];
 
-    //create a new subset from the existing subset and insert
-    //the current element to it
-    for(let j = 0; j < n; j++) {
-      
-      //clone the permutation
-      // const set1 = subsets[j].slice(0)
-      
-      // set1.push(currentNumber)
-      subsets.push([...subsets[j], nums[i]])
-    }
-  }
+ //start by adding the empty subset
+ subsets.push([])
 
-  return subsets;
+ for(let i = 0; i < nums.length; i++) {
+ const currentNumber = nums[i]
+
+ //we will take all existing subsets and insert the current
+ //number in them to create new subsets
+ const n = subsets.length
+
+ //create a new subset from the existing subset and insert
+ //the current element to it
+ for(let j = 0; j < n; j++) {
+
+ //clone the permutation
+ // const set1 = subsets[j].slice(0)
+
+ // set1.push(currentNumber)
+ subsets.push([...subsets[j], nums[i]])
+ }
+ }
+
+ return subsets;
 };
 
 
@@ -65,58 +65,58 @@ This problem follows the <b>Subsets</b> pattern and we can follow a similar <b>B
 
 Let’s take first Example mentioned below to go through each step of our algorithm:
 ````
-Given set: [1, 5, 3, 3]  
+Given set: [1, 5, 3, 3] 
 Sorted set: [1, 3, 3, 5]
 ````
 1. Start with an empty set: `[[]]`
 2. Add the first number `1` to all the existing subsets to create new subsets: `[[], [1]]`;
 3. Add the second number `3` to all the existing subsets: `[[], [1], [3], [1,3]]`.
 4. The next number `3` is a duplicate. If we add it to all existing subsets we will get:
-    ````
-    [[], [1], [3], [1,3], [3], [1,3], [3,3], [1,3,3]]
-    ````
+ ````
+ [[], [1], [3], [1,3], [3], [1,3], [3,3], [1,3,3]]
+ ````
 ````
-We got two duplicate subsets: [3], [1,3]  
+We got two duplicate subsets: [3], [1,3] 
 Whereas we only needed the new subsets: [3,3], [1,3,3] 
 ````
 To handle this instead of adding `3` to all the existing subsets, we only add it to the new subsets which were created in the previous <b>3rd</b> step:
 ````
-    [[], [1], [3], [1,3], [3,3], [1,3,3]]
+ [[], [1], [3], [1,3], [3,3], [1,3,3]]
 ````
 5. Finally, add the forth number `5` to all the existing subsets: `[[], [1], [3], [1,3], [3,3], [1,3,3], [5], [1,5], [3,5], [1,3,5], [3,3,5], [1,3,3,5]]`
 
 ````js
 function subsetsWithDupe(nums) {
-  //sort the numbers to handle duplicates
-  nums.sort((a,b) => a-b)
-  
-  const subsets = [];
-  
-  subsets.push([])
-  
-  let start = 0
-  let end = 0
-  
-  for(let i = 0; i < nums.length; i++) {
-    start = 0
-    
-    //if current and the previous elements are the same,
-    //create new subsets only from the subsets
-    //added in the previous step
-    if(i > 0 && nums[i] === nums[i-1]) {
-      start = end + 1
-    }
-    
-    end = subsets.length - 1
-    
-    for(let j = start; j < end + 1; j++) {
-      //create a new subset from the existing subset and add the
-      //current element to it
-      subsets.push([...subsets[j], nums[i]])
-    }
-  }
-  
-  return subsets;
+ //sort the numbers to handle duplicates
+ nums.sort((a,b) => a-b)
+
+ const subsets = [];
+
+ subsets.push([])
+
+ let start = 0
+ let end = 0
+
+ for(let i = 0; i < nums.length; i++) {
+ start = 0
+
+ //if current and the previous elements are the same,
+ //create new subsets only from the subsets
+ //added in the previous step
+ if(i > 0 && nums[i] === nums[i-1]) {
+ start = end + 1
+ }
+
+ end = subsets.length - 1
+
+ for(let j = start; j < end + 1; j++) {
+ //create a new subset from the existing subset and add the
+ //current element to it
+ subsets.push([...subsets[j], nums[i]])
+ }
+ }
+
+ return subsets;
 };
 
 
@@ -147,7 +147,7 @@ Let’s take the example mentioned below to generate all the permutations. Follo
 2. Let’s add the first element `1`, the permutations will be: `[1]`
 3. Let’s add the second element `3`, the permutations will be: `[3,1], [1,3]`
 4. Let’s add the third element `5`, the permutations will be: `[5,3,1], [3,5,1], [3,1,5], [5,1,3], [1,5,3], [1,3,5]`
- 
+
 Let’s analyze the permutations in the 3rd and 4th step. How can we generate permutations in the 4th step from the permutations of the 3rd step?
 
 If we look closely, we will realize that when we add a new number `5`, we take each permutation of the previous step and insert the new number in every position to generate the new permutations. For example, inserting `5` in different positions of `[3,1]` will give us the following permutations:
@@ -157,39 +157,39 @@ If we look closely, we will realize that when we add a new number `5`, we take e
 
 ````js
 function findPermutations(nums) {
-  const result = [];
-  let permutations = [[]]
-  let numsLength = nums.length
-  
-   for(let i = 0; i < nums.length; i++) {
-     const currentNumber = nums[i]
-     
-     //we will take all existing permutations an add the
-     //current number to create a new permutation
-     const n = permutations.length
-     
-     for(let p = 0; p < n; p++){
-       const oldPermutation = permutations.shift()
-       console.log(oldPermutation)
-       
-       //create a new permutation by adding the current number at every position
-       for(let j  = 0; j < oldPermutation.length + 1; j++) {
-         
-         //clone the permutation
-         const newPermutation = oldPermutation.slice(0)
-         
-         //insert the current number at index j
-         newPermutation.splice(j, 0, currentNumber)
-         
-         if(newPermutation.length === numsLength) {
-           result.push(newPermutation)
-         } else {
-           permutations.push(newPermutation)
-         }
-       }
-     }
-   }
-  return result;
+ const result = [];
+ let permutations = [[]]
+ let numsLength = nums.length
+
+ for(let i = 0; i < nums.length; i++) {
+ const currentNumber = nums[i]
+
+ //we will take all existing permutations an add the
+ //current number to create a new permutation
+ const n = permutations.length
+
+ for(let p = 0; p < n; p++){
+ const oldPermutation = permutations.shift()
+ console.log(oldPermutation)
+
+ //create a new permutation by adding the current number at every position
+ for(let j = 0; j < oldPermutation.length + 1; j++) {
+
+ //clone the permutation
+ const newPermutation = oldPermutation.slice(0)
+
+ //insert the current number at index j
+ newPermutation.splice(j, 0, currentNumber)
+
+ if(newPermutation.length === numsLength) {
+ result.push(newPermutation)
+ } else {
+ permutations.push(newPermutation)
+ }
+ }
+ }
+ }
+ return result;
 };
 
 findPermutations([1, 3, 5])
@@ -201,29 +201,29 @@ findPermutations([1, 3, 5])
 ### Recursive Solution
 ````js
 function permute(nums) {
-  //recursion
-  let subsets = []
- 
-  generatePermuationsRecursive(nums, 0, [], subsets)
-  
-  return subsets   
+ //recursion
+ let subsets = []
+
+ generatePermuationsRecursive(nums, 0, [], subsets)
+
+ return subsets 
 };
 
 function generatePermuationsRecursive(nums, index, currentPermuation, subsets) {
-    if(index === nums.length) {
-      subsets.push(currentPermuation)
-    } else {
-      //create a new permuation by adding the current number at every position
-      for(let i = 0; i < currentPermuation.length +1; i++) {
-        let newPermutation = currentPermuation.slice(0)
-        
-        //insert nums[index] at index i
-        newPermutation.splice(i, 0, nums[index])
-        generatePermuationsRecursive(nums, index+1, newPermutation, subsets)
-      }
-    }  
-  }
-  ````
+ if(index === nums.length) {
+ subsets.push(currentPermuation)
+ } else {
+ //create a new permuation by adding the current number at every position
+ for(let i = 0; i < currentPermuation.length +1; i++) {
+ let newPermutation = currentPermuation.slice(0)
+
+ //insert nums[index] at index i
+ newPermutation.splice(i, 0, nums[index])
+ generatePermuationsRecursive(nums, index+1, newPermutation, subsets)
+ }
+ } 
+ }
+ ````
 ## String Permutations by changing case (medium)
 https://leetcode.com/problems/letter-case-permutation/
 
@@ -243,32 +243,32 @@ Let’s analyze the permutations in the 3rd and the 5th step. How can we generat
 If we look closely, we will realize that in the 5th step, when we processed the new character `c`, we took all the permutations of the previous step (3rd) and changed the case of the letter `c` in them to create four new permutations.
 ````js
 function findLetterCaseStringPermutations(str) {
-  const permutations = [];
-  permutations.push(str)
-  
-  //process every character of the string one by one
-  for(let i = 0; i < str.length; i++) {
-    //only characters we will skip digits
-    if(isNaN(parseInt(str[i]), 10)){
-      //we will take all exixting permutations and change the letter case appropriately
-      const n = permutations.length
-      
-      for(let j = 0; j < n; j++) {
-        //string to array
-        const chs = permutations[j].split('')
-        
-        //if the current character is in upper case
-        //change it to lower case or vice verse
-        if(chs[i] === chs[i].toLowerCase()) {
-          chs[i] = chs[i].toUpperCase()
-        } else {
-          chs[i] = chs[i].toLowerCase()
-        }
-        permutations.push(chs.join(''))
-      }
-    }
-  }
-  return permutations;
+ const permutations = [];
+ permutations.push(str)
+
+ //process every character of the string one by one
+ for(let i = 0; i < str.length; i++) {
+ //only characters we will skip digits
+ if(isNaN(parseInt(str[i]), 10)){
+ //we will take all exixting permutations and change the letter case appropriately
+ const n = permutations.length
+
+ for(let j = 0; j < n; j++) {
+ //string to array
+ const chs = permutations[j].split('')
+
+ //if the current character is in upper case
+ //change it to lower case or vice verse
+ if(chs[i] === chs[i].toLowerCase()) {
+ chs[i] = chs[i].toUpperCase()
+ } else {
+ chs[i] = chs[i].toLowerCase()
+ }
+ permutations.push(chs.join(''))
+ }
+ }
+ }
+ return permutations;
 };
 
 
@@ -304,39 +304,39 @@ Following this guideline, let’s generate parentheses for `N=3`:
 
 ````js
 class ParenthesesString {
-  constructor(str, openCount, closeCount) {
-    this.str = str;
-    this.openCount = openCount;
-    this.closeCount = closeCount;
-  }
+ constructor(str, openCount, closeCount) {
+ this.str = str;
+ this.openCount = openCount;
+ this.closeCount = closeCount;
+ }
 }
 
 
 function generateValidParentheses(num) {
-  let result = [];
-  let queue = []
-  
-  queue.push(new ParenthesesString('', 0, 0))
-  
-  while(queue.length > 0) {
-    const ps = queue.shift()
-    
-    //if we've reached the maximum number of open and closed
-    //parentheses, add to the result
-    if(ps.openCount === num && ps.closeCount === num) {
-      result.push(ps.str)
-    } else {
-      if(ps.openCount < num) {
-        //if we can add an open parentheses, add it
-        queue.push(new ParenthesesString(`${ps.str}(`, ps.openCount + 1, ps.closeCount))  
-      }
-      if(ps.openCount > ps.closeCount) {
-        //if we can add a close parentheses, add it
-        queue.push(new ParenthesesString(`${ps.str})`, ps.openCount, ps.closeCount + 1))
-      }
-    }
-  }
-  return result;
+ let result = [];
+ let queue = []
+
+ queue.push(new ParenthesesString('', 0, 0))
+
+ while(queue.length > 0) {
+ const ps = queue.shift()
+
+ //if we've reached the maximum number of open and closed
+ //parentheses, add to the result
+ if(ps.openCount === num && ps.closeCount === num) {
+ result.push(ps.str)
+ } else {
+ if(ps.openCount < num) {
+ //if we can add an open parentheses, add it
+ queue.push(new ParenthesesString(`${ps.str}(`, ps.openCount + 1, ps.closeCount)) 
+ }
+ if(ps.openCount > ps.closeCount) {
+ //if we can add a close parentheses, add it
+ queue.push(new ParenthesesString(`${ps.str})`, ps.openCount, ps.closeCount + 1))
+ }
+ }
+ }
+ return result;
 };
 
 
@@ -351,33 +351,33 @@ generateValidParentheses(3)
 ### Recursive Solution 
 ````js
 function generateValidParentheses(num) {
-  const result = [];
-  const parenthesesString = Array(2 * num);
-  generateValidParenthesesRecursive(num, 0, 0, parenthesesString, 0, result);
-  return result;
+ const result = [];
+ const parenthesesString = Array(2 * num);
+ generateValidParenthesesRecursive(num, 0, 0, parenthesesString, 0, result);
+ return result;
 }
 
 
 function generateValidParenthesesRecursive(num, openCount, closeCount, parenthesesString, index, result) {
-  // if we've reached the maximum number of open and close parentheses, add to the result
-  if (openCount === num && closeCount === num) {
-    result.push(parenthesesString.join(''));
-  } else {
-    if (openCount < num) { // if we can add an open parentheses, add it
-      parenthesesString[index] = '(';
-     generateValidParenthesesRecursive(num, openCount + 1, closeCount, parenthesesString, index + 1, result);
-    }
-    if (openCount > closeCount) { // if we can add a close parentheses, add it
-      parenthesesString[index] = ')';
-      generateValidParenthesesRecursive(num, openCount, closeCount + 1, parenthesesString, index + 1, result);
-    }
-  }
+ // if we've reached the maximum number of open and close parentheses, add to the result
+ if (openCount === num && closeCount === num) {
+ result.push(parenthesesString.join(''));
+ } else {
+ if (openCount < num) { // if we can add an open parentheses, add it
+ parenthesesString[index] = '(';
+ generateValidParenthesesRecursive(num, openCount + 1, closeCount, parenthesesString, index + 1, result);
+ }
+ if (openCount > closeCount) { // if we can add a close parentheses, add it
+ parenthesesString[index] = ')';
+ generateValidParenthesesRecursive(num, openCount, closeCount + 1, parenthesesString, index + 1, result);
+ }
+ }
 }
 
 generateValidParentheses(2)
 generateValidParentheses(3)
 ````
-## 😕 Unique Generalized Abbreviations (hard)
+## Unique Generalized Abbreviations (hard)
 https://leetcode.com/problems/generalized-abbreviation/
 
 > Given a word, write a function to generate all of its unique generalized abbreviations.
@@ -402,38 +402,38 @@ Following these two rules, let’s abbreviate `BAT`:
 
 ````js
 class AbbreviatedWord {
-  constructor(str, start, count) {
-    this.str = str;
-    this.start = start;
-    this.count = count;
-  }
+ constructor(str, start, count) {
+ this.str = str;
+ this.start = start;
+ this.count = count;
+ }
 }
 
 function generateGeneralizedAbbreviation(word) {
-  let wLength = word.length
-  const result = [];
-  const queue = [];
-  queue.push(new AbbreviatedWord('', 0, 0))
-  while(queue.length > 0) {
-    const abWord = queue.shift()
-    if(abWord.start === wLength){
-      if(abWord.count !== 0) {
-        abWord.str += abWord.count
-      }
-      result.push(abWord.str)
-    } else {
-      //continue abbreviating by incrementing the current abbreviation count
-      queue.push(new AbbreviatedWord(abWord.str, abWord.start + 1, abWord.count + 1))
-      
-      //restart abbreviating, append the count and the current character to the string
-      if(abWord.count !== 0){
-        abWord.str += abWord.count
-      }
-      let newWord = abWord.str + word[abWord.start]
-      queue.push(new AbbreviatedWord(newWord, abWord.start + 1, 0))
-    }
-  }
-  return result;
+ let wLength = word.length
+ const result = [];
+ const queue = [];
+ queue.push(new AbbreviatedWord('', 0, 0))
+ while(queue.length > 0) {
+ const abWord = queue.shift()
+ if(abWord.start === wLength){
+ if(abWord.count !== 0) {
+ abWord.str += abWord.count
+ }
+ result.push(abWord.str)
+ } else {
+ //continue abbreviating by incrementing the current abbreviation count
+ queue.push(new AbbreviatedWord(abWord.str, abWord.start + 1, abWord.count + 1))
+
+ //restart abbreviating, append the count and the current character to the string
+ if(abWord.count !== 0){
+ abWord.str += abWord.count
+ }
+ let newWord = abWord.str + word[abWord.start]
+ queue.push(new AbbreviatedWord(newWord, abWord.start + 1, 0))
+ }
+ }
+ return result;
 };
 
 
@@ -446,36 +446,36 @@ generateGeneralizedAbbreviation("code")// "code", "cod1", "co1e", "co2", "c1de",
 ### Recursive Solution 
 ````js
 function generate_generalized_abbreviation(word) {
-  const result = [];
-  generate_abbreviation_recursive(word, '', 0, 0, result);
-  return result;
+ const result = [];
+ generate_abbreviation_recursive(word, '', 0, 0, result);
+ return result;
 }
 
 
 function generate_abbreviation_recursive(word, abWord, start, count, result) {
-  if (start === word.length) {
-    if (count !== 0) {
-      abWord += count;
-    }
-    result.push(abWord);
-  } else {
-    // continue abbreviating by incrementing the current abbreviation count
-    generate_abbreviation_recursive(word, abWord, start + 1, count + 1, result);
+ if (start === word.length) {
+ if (count !== 0) {
+ abWord += count;
+ }
+ result.push(abWord);
+ } else {
+ // continue abbreviating by incrementing the current abbreviation count
+ generate_abbreviation_recursive(word, abWord, start + 1, count + 1, result);
 
-    // restart abbreviating, append the count and the current character to the string
-    if (count !== 0) {
-      abWord += count;
-    }
-    const newWord = abWord + word[start];
-    generate_abbreviation_recursive(word, newWord, start + 1, 0, result);
-  }
+ // restart abbreviating, append the count and the current character to the string
+ if (count !== 0) {
+ abWord += count;
+ }
+ const newWord = abWord + word[start];
+ generate_abbreviation_recursive(word, newWord, start + 1, 0, result);
+ }
 }
 
 
 console.log(`Generalized abbreviation are: ${generate_generalized_abbreviation('BAT')}`);
 console.log(`Generalized abbreviation are: ${generate_generalized_abbreviation('code')}`);
 ````
-## 🌟 Evaluate Expression (hard)
+## Evaluate Expression (hard)
 https://leetcode.com/problems/different-ways-to-add-parentheses/
 
 > Given an expression containing digits and operations `(+, -, *)`, find all possible ways in which the expression can be evaluated by grouping the numbers and operators using parentheses.
@@ -490,38 +490,38 @@ Let’s take the first example to generate different ways to evaluate the expres
 
 ````js
 function diffWaysToEvaluateExpression(input) {
-  const result = [];
-  
-  // base case: if the input string is a number, parse and add it to output.
-  if(!(input.includes('+')) && !(input.includes('-')) && !(input.includes('*'))) {
-     result.push(parseInt(input))
-     } else {
-       for(let i = 0; i < input.length; i++){
-         const char = input[i];
-         if(isNaN(parseInt(char, 10))){
-        // if not a digit
-        // break the equation here into two parts and make recursively calls
-           const leftParts = diffWaysToEvaluateExpression(input.substring(0, i))
-           const rightParts = diffWaysToEvaluateExpression(input.substring(i + 1))
-         
-           for (let l = 0; l < leftParts.length; l++) {
-          for (let r = 0; r < rightParts.length; r++) {
-            let part1 = leftParts[l],
-              part2 = rightParts[r];
-            if (char === '+') {
-              result.push(part1 + part2);
-            } else if (char === '-') {
-              result.push(part1 - part2);
-            } else if (char === '*') {
-              result.push(part1 * part2);
-            }
-          }
-        }
-      }
-    }
-  }
+ const result = [];
 
-  return result;
+ // base case: if the input string is a number, parse and add it to output.
+ if(!(input.includes('+')) && !(input.includes('-')) && !(input.includes('*'))) {
+ result.push(parseInt(input))
+ } else {
+ for(let i = 0; i < input.length; i++){
+ const char = input[i];
+ if(isNaN(parseInt(char, 10))){
+ // if not a digit
+ // break the equation here into two parts and make recursively calls
+ const leftParts = diffWaysToEvaluateExpression(input.substring(0, i))
+ const rightParts = diffWaysToEvaluateExpression(input.substring(i + 1))
+
+ for (let l = 0; l < leftParts.length; l++) {
+ for (let r = 0; r < rightParts.length; r++) {
+ let part1 = leftParts[l],
+ part2 = rightParts[r];
+ if (char === '+') {
+ result.push(part1 + part2);
+ } else if (char === '-') {
+ result.push(part1 - part2);
+ } else if (char === '*') {
+ result.push(part1 * part2);
+ }
+ }
+ }
+ }
+ }
+ }
+
+ return result;
 };
 
 
@@ -536,52 +536,52 @@ console.log(`Expression evaluations: ${diffWaysToEvaluateExpression("2*3-4-5")}`
 The problem has overlapping subproblems, as our recursive calls can be evaluating the same sub-expression multiple times. To resolve this, we can use <b>memoization</b> and store the intermediate results in a <b>HashMap</b>. In each function call, we can check our map to see if we have already evaluated this sub-expression before
 ````js
 function diffWaysToEvaluateExpression(input) {
-  diffWaysToEvaluateExpressionRecursive({}, input)
+ diffWaysToEvaluateExpressionRecursive({}, input)
 }
 
 function diffWaysToEvaluateExpressionRecursive(map, input) {
-  
-  if(input in map) {
-    //issue with the hashmap here
-    return map[input]
-    // console.log(map[input])
-  }
-  const result = [];
-  
-  // base case: if the input string is a number
-  //parse and add it to output.
-  if(!(input.includes('+')) && !(input.includes('-')) && !(input.includes('*'))) {
-     result.push(parseInt(input))
-     } 
-  else {
-       for(let i = 0; i < input.length; i++){
-         const char = input[i];
-         if(isNaN(parseInt(char, 10))){
-        // if not a digit
-        // break the equation here into two parts and make recursively calls
-           const leftParts = diffWaysToEvaluateExpression(input.substring(0, i))
-           const rightParts = diffWaysToEvaluateExpression(input.substring(i + 1))
-         // console.log(leftParts.length)
-           for (let l = 0; l < leftParts.length; l++) {
-          for (let r = 0; r < rightParts.length; r++) {
-            let part1 = leftParts[l],
-              part2 = rightParts[r];
-            if (char === '+') {
-              result.push(part1 + part2);
-            } else if (char === '-') {
-              result.push(part1 - part2);
-            } else if (char === '*') {
-              result.push(part1 * part2);
-            }
-          }
-        }
-      }
-    }
-  }
-  
-  map[input] = result
-  
-  return result;
+
+ if(input in map) {
+ //issue with the hashmap here
+ return map[input]
+ // console.log(map[input])
+ }
+ const result = [];
+
+ // base case: if the input string is a number
+ //parse and add it to output.
+ if(!(input.includes('+')) && !(input.includes('-')) && !(input.includes('*'))) {
+ result.push(parseInt(input))
+ } 
+ else {
+ for(let i = 0; i < input.length; i++){
+ const char = input[i];
+ if(isNaN(parseInt(char, 10))){
+ // if not a digit
+ // break the equation here into two parts and make recursively calls
+ const leftParts = diffWaysToEvaluateExpression(input.substring(0, i))
+ const rightParts = diffWaysToEvaluateExpression(input.substring(i + 1))
+ // console.log(leftParts.length)
+ for (let l = 0; l < leftParts.length; l++) {
+ for (let r = 0; r < rightParts.length; r++) {
+ let part1 = leftParts[l],
+ part2 = rightParts[r];
+ if (char === '+') {
+ result.push(part1 + part2);
+ } else if (char === '-') {
+ result.push(part1 - part2);
+ } else if (char === '*') {
+ result.push(part1 * part2);
+ }
+ }
+ }
+ }
+ }
+ }
+
+ map[input] = result
+
+ return result;
 };
 
 
@@ -589,7 +589,7 @@ console.log(`Expression evaluations: ${diffWaysToEvaluateExpression("1+2*3")}`)/
 console.log(`Expression evaluations: ${diffWaysToEvaluateExpression("2*3-4-5")}`)//[8, -12, 7, -7, -3 ], 2*(3-(4-5)) => 8, 2*(3-4-5) => -12, 2*3-(4-5) => 7, 2*(3-4)-5 => -7, (2*3)-4-5 => -3
 ````
 
-## 🌟 Structurally Unique Binary Search Trees (hard)
+## Structurally Unique Binary Search Trees (hard)
 https://leetcode.com/problems/unique-binary-search-trees-ii/
 
 > Given a number `n`, write a function to return all structurally unique <b>Binary Search Trees (BST)</b> that can store values `1` to `n`?
@@ -598,48 +598,48 @@ This problem follows the <b>Subsets</b> pattern and is quite similar to <b>Evalu
 
 ````js
 class TreeNode {
-  constructor(val, left = null, right = null) {
-    this.val = val;
-    this.left = left;
-    this.right = right;
-  }
+ constructor(val, left = null, right = null) {
+ this.val = val;
+ this.left = left;
+ this.right = right;
+ }
 }
 
 
 function findUniqueTrees(n) {
-   if (n <= 0) {
-    return [];
-  }
-  return findUniqueTreesRecursive(1, n);
+ if (n <= 0) {
+ return [];
+ }
+ return findUniqueTreesRecursive(1, n);
 }
 
 function findUniqueTreesRecursive(start, end) {
-  const result = [];
-  // let treeCount = 0
-  // base condition, return 'null' for an empty sub-tree
-  // consider n = 1, in this case we will have start = end = 1, this means we should have only one tree
-  // we will have two recursive calls, findUniqueTreesRecursive(1, 0) & (2, 1)
-  // both of these should return 'null' for the left and the right child
-  if (start > end) {
-    result.push(null);
-    return result;
-  }
+ const result = [];
+ // let treeCount = 0
+ // base condition, return 'null' for an empty sub-tree
+ // consider n = 1, in this case we will have start = end = 1, this means we should have only one tree
+ // we will have two recursive calls, findUniqueTreesRecursive(1, 0) & (2, 1)
+ // both of these should return 'null' for the left and the right child
+ if (start > end) {
+ result.push(null);
+ return result;
+ }
 
-  for (let i = start; i < end + 1; i++) {
-    // making 'i' the root of the tree
-    const leftSubtrees = findUniqueTreesRecursive(start, i - 1);
-    const rightSubtrees = findUniqueTreesRecursive(i + 1, end);
-    for (let p = 0; p < leftSubtrees.length; p++) {
-      for (let q = 0; q < rightSubtrees.length; q++) {
-        const root = new TreeNode(i, leftSubtrees[p], rightSubtrees[q]);
-        result.push(root);
-        // treeCount++
-      }
-    }
-  }
+ for (let i = start; i < end + 1; i++) {
+ // making 'i' the root of the tree
+ const leftSubtrees = findUniqueTreesRecursive(start, i - 1);
+ const rightSubtrees = findUniqueTreesRecursive(i + 1, end);
+ for (let p = 0; p < leftSubtrees.length; p++) {
+ for (let q = 0; q < rightSubtrees.length; q++) {
+ const root = new TreeNode(i, leftSubtrees[p], rightSubtrees[q]);
+ result.push(root);
+ // treeCount++
+ }
+ }
+ }
 
-  //return length of this instead, traverse tree?
-  return result;
+ //return length of this instead, traverse tree?
+ return result;
 };
 
 
@@ -652,33 +652,33 @@ findUniqueTrees(3)//List containing root nodes of all structurally unique BSTs, 
 #### Memoized Solution
 Since our algorithm has overlapping subproblems, can we use memoization to improve it? We could, but every time we return the result of a subproblem from the cache, we have to clone the result list because these trees will be used as the left or right child of a tree. This cloning is equivalent to reconstructing the trees, therefore, the overall time complexity of the memoized algorithm will also be the same.
 
-## 🌟 Count of Structurally Unique Binary Search Trees (hard)
+## Count of Structurally Unique Binary Search Trees (hard)
 https://leetcode.com/problems/unique-binary-search-trees/
 
 > Given a number `n`, write a function to return the count of structurally unique <b>Binary Search Trees (BST)</b> that can store values `1` to `n`.
 
 ````js
 class TreeNode {
-  constructor(value) {
-    this.value = value;
-    this.left = null;
-    this.right = null; 
-  }
+ constructor(value) {
+ this.value = value;
+ this.left = null;
+ this.right = null; 
+ }
 };
 
 
 function countTrees(n) {
 if (n <= 1) {
-    return 1;
-  }
-  let count = 0;
-  for (let i = 1; i < n + 1; i++) {
-    // making 'i' the root of the tree
-    const countOfLeftSubtrees = countTrees(i - 1);
-    const countOfRightSubtrees = countTrees(n - i);
-    count += (countOfLeftSubtrees * countOfRightSubtrees);
-  }
-  return count;
+ return 1;
+ }
+ let count = 0;
+ for (let i = 1; i < n + 1; i++) {
+ // making 'i' the root of the tree
+ const countOfLeftSubtrees = countTrees(i - 1);
+ const countOfRightSubtrees = countTrees(n - i);
+ count += (countOfLeftSubtrees * countOfRightSubtrees);
+ }
+ return count;
 };
 
 
@@ -692,39 +692,39 @@ countTrees(3)//5, There will be 5 unique BSTs that can store numbers from 1 to 3
 Our algorithm has overlapping subproblems as our recursive call will be evaluating the same sub-expression multiple times. To resolve this, we can use memoization and store the intermediate results in a <b>HashMap</b>. In each function call, we can check our map to see if we have already evaluated this sub-expression before.
 ````js
 class TreeNode {
-  constructor(value) {
-    this.value = value;
-    this.left = null;
-    this.right = null; 
-  }
+ constructor(value) {
+ this.value = value;
+ this.left = null;
+ this.right = null; 
+ }
 };
 
 function countTrees(n) {
-  return countTreesRec({}, n);
+ return countTreesRec({}, n);
 }
 
 function countTrees(map, n) {
-  
-  //fix this hashmap
-   if (n in map) {
-    return map[n];
-  }
-  
-  
+
+ //fix this hashmap
+ if (n in map) {
+ return map[n];
+ }
+
+
 if (n <= 1) {
-    return 1;
-  }
-  let count = 0;
-  for (let i = 1; i < n + 1; i++) {
-    // making 'i' the root of the tree
-    const countOfLeftSubtrees = countTrees(i - 1);
-    const countOfRightSubtrees = countTrees(n - i);
-    count += (countOfLeftSubtrees * countOfRightSubtrees);
-  }
-  
-  map[n] = count;
-  
-  return count;
+ return 1;
+ }
+ let count = 0;
+ for (let i = 1; i < n + 1; i++) {
+ // making 'i' the root of the tree
+ const countOfLeftSubtrees = countTrees(i - 1);
+ const countOfRightSubtrees = countTrees(n - i);
+ count += (countOfLeftSubtrees * countOfRightSubtrees);
+ }
+
+ map[n] = count;
+
+ return count;
 };
 
 

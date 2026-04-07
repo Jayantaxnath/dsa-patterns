@@ -4,7 +4,7 @@ Any problem that asks us to find the <b>top/smallest/frequent K</b> elements amo
 
 <s>The best data structure that comes to mind to keep track of <b>K</b> elements is <s>Heap</s>. This pattern will make use of the <s><b>Heap</b></s> to solve multiple problems dealing with <b>K</b> elements at a time from a set of given elements.</s>
 
-### ❗ NOTE
+### NOTE
 
 Although this course uses <b>Heaps</b> to solve <b>Top 'K' Elements</b> problems, <b>JavaScript</b> does not have a built in method for <b>Heaps/Priority Queues</b>. It can be very time consuming to implement a <b>Heap class</b> from scratch, especially during an interview. After reviewing the <i>JavaScript</i> solutions on <i>Leetcode</i> the most effecient way to solve a <b>Top 'K' Elements</b> problem is usually with <b>[QuickSort](https://github.com/Chanda-Abdul/leetcode/blob/master/0%20%E2%9D%97Sort%20Algorithms.md#-quick-sort)</b>, <b>[BinarySearch](https://github.com/Chanda-Abdul/leetcode/blob/master/0%20%E2%9D%97Sort%20Algorithms.md#binary-search)</b>, <b>[BucketSort](https://initjs.org/bucket-sort-in-javascript-dc040b8f0058)</b>, <b>[Greedy Algorithms](https://github.com/Chanda-Abdul/Grokking-Algorithm-Book-Notes/blob/main/8.%20Greedy%20Algoritms.md)</b>, or <b>[HashMaps](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map)</b>. For more information take a look at these
 
@@ -44,42 +44,42 @@ As discussed above, it will take us `O(logK)` to extract the minimum number from
 
 ```js
 function findKLargestNumbers(nums, k) {
-  return quickSort(nums).slice(-k);
+ return quickSort(nums).slice(-k);
 }
 
 function quickSort(array) {
-  //recursive base case
-  if (array.length === 1) return array;
+ //recursive base case
+ if (array.length === 1) return array;
 
-  //set pivot to end value
-  const pivotPoint = array[array.length - 1];
-  const firstHalf = [];
-  const secondHalf = [];
+ //set pivot to end value
+ const pivotPoint = array[array.length - 1];
+ const firstHalf = [];
+ const secondHalf = [];
 
-  for (let i = 0; i < array.length - 1; i++) {
-    if (array[i] < pivotPoint) {
-      firstHalf.push(array[i]);
-    } else {
-      secondHalf.push(array[i]);
-    }
-  }
+ for (let i = 0; i < array.length - 1; i++) {
+ if (array[i] < pivotPoint) {
+ firstHalf.push(array[i]);
+ } else {
+ secondHalf.push(array[i]);
+ }
+ }
 
-  //recursively sort
-  if (firstHalf.length > 0 && secondHalf.length > 0) {
-    return [...quickSort(firstHalf), pivotPoint, ...quickSort(secondHalf)];
-  } else if (firstHalf.length > 0) {
-    return [...quickSort(firstHalf), pivotPoint];
-  } else {
-    //secondHalf.length> 0
-    return [pivotPoint, ...quickSort(secondHalf)];
-  }
+ //recursively sort
+ if (firstHalf.length > 0 && secondHalf.length > 0) {
+ return [...quickSort(firstHalf), pivotPoint, ...quickSort(secondHalf)];
+ } else if (firstHalf.length > 0) {
+ return [...quickSort(firstHalf), pivotPoint];
+ } else {
+ //secondHalf.length> 0
+ return [pivotPoint, ...quickSort(secondHalf)];
+ }
 }
 
 console.log(
-  `Here are the top K numbers: ${findKLargestNumbers([3, 1, 5, 12, 2, 11], 3)}`
+ `Here are the top K numbers: ${findKLargestNumbers([3, 1, 5, 12, 2, 11], 3)}`
 );
 console.log(
-  `Here are the top K numbers: ${findKLargestNumbers([5, 12, 11, -1, 12], 3)}`
+ `Here are the top K numbers: ${findKLargestNumbers([5, 12, 11, -1, 12], 3)}`
 );
 ```
 
@@ -96,57 +96,57 @@ https://leetcode.com/problems/kth-largest-element-in-an-array/
 
 ```js
 function findKLargestNumbers(nums, k) {
-  const finalIndex = nums.length - k;
-  let start = 0;
-  let end = nums.length - 1;
+ const finalIndex = nums.length - k;
+ let start = 0;
+ let end = nums.length - 1;
 
-  while (start <= end) {
-    //random number between start and end for pivot
-    const pivot = Math.floor(Math.random() * (end - start + 1) + start);
-    //final postion of the pivot in a sorted array
-    const pivotIndex = sort(nums, pivot, start, end);
-    if (pivotIndex === finalIndex) return nums[finalIndex];
+ while (start <= end) {
+ //random number between start and end for pivot
+ const pivot = Math.floor(Math.random() * (end - start + 1) + start);
+ //final postion of the pivot in a sorted array
+ const pivotIndex = sort(nums, pivot, start, end);
+ if (pivotIndex === finalIndex) return nums[finalIndex];
 
-    //if pivotIndex is smaller we undershot, so look only on the first half
-    if (pivotIndex < finalIndex) start = pivotIndex + 1;
-    //if pivotIndex is larger we overshot, so look only on the first half
-    else end = pivotIndex - 1;
-  }
+ //if pivotIndex is smaller we undershot, so look only on the first half
+ if (pivotIndex < finalIndex) start = pivotIndex + 1;
+ //if pivotIndex is larger we overshot, so look only on the first half
+ else end = pivotIndex - 1;
+ }
 }
 
 function sort(array, pivot, start, end) {
-  //swap the pivot to the end
-  [array[pivot], array[end]] = [array[end], array[pivot]];
+ //swap the pivot to the end
+ [array[pivot], array[end]] = [array[end], array[pivot]];
 
-  let i = start;
-  let j = start;
+ let i = start;
+ let j = start;
 
-  while (j < end) {
-    if (array[j] <= array[end]) {
-      [array[i], array[j]] = [array[j], array[i]];
-      i++;
-    }
-    j++;
-  }
+ while (j < end) {
+ if (array[j] <= array[end]) {
+ [array[i], array[j]] = [array[j], array[i]];
+ i++;
+ }
+ j++;
+ }
 
-  //swap pivot to its final position
-  [array[i], array[end]] = [array[end], array[i]];
-  return i;
+ //swap pivot to its final position
+ [array[i], array[end]] = [array[end], array[i]];
+ return i;
 }
 
 console.log(
-  `Here is the top K number: ${findKLargestNumbers(
-    [3, 2, 3, 1, 2, 4, 5, 5, 6],
-    4
-  )}`
+ `Here is the top K number: ${findKLargestNumbers(
+ [3, 2, 3, 1, 2, 4, 5, 5, 6],
+ 4
+ )}`
 );
 //4
 console.log(
-  `Here is the top K number: ${findKLargestNumbers([3, 1, 5, 12, 2, 11], 3)}`
+ `Here is the top K number: ${findKLargestNumbers([3, 1, 5, 12, 2, 11], 3)}`
 );
 //5
 console.log(
-  `Here is the top K number: ${findKLargestNumbers([5, 12, 11, -1, 12], 3)}`
+ `Here is the top K number: ${findKLargestNumbers([5, 12, 11, -1, 12], 3)}`
 );
 //11
 ```
@@ -164,37 +164,37 @@ https://leetcode.com/problems/k-closest-points-to-origin/
 
 ```js
 function findClosestPoints(points, k) {
-  let result = [];
-  points = points.sort(
-    ([x1, y1], [x2, y2]) =>
-      Math.pow(x1, 2) + Math.pow(y1, 2) - (Math.pow(x2, 2) + Math.pow(y2, 2))
-  );
-  result = [...points.slice(0, k)];
+ let result = [];
+ points = points.sort(
+ ([x1, y1], [x2, y2]) =>
+ Math.pow(x1, 2) + Math.pow(y1, 2) - (Math.pow(x2, 2) + Math.pow(y2, 2))
+ );
+ result = [...points.slice(0, k)];
 
-  return result;
+ return result;
 }
 console.log(
-  `"Here are the k points closest the origin: " ${findClosestPoints(
-    [
-      [1, 2],
-      [1, 3],
-    ],
-    1
-  )}`
+ `"Here are the k points closest the origin: " ${findClosestPoints(
+ [
+ [1, 2],
+ [1, 3],
+ ],
+ 1
+ )}`
 );
 //The Euclidean distance between (1, 2) and the origin is sqrt(5).
 //The Euclidean distance between (1, 3) and the origin is sqrt(10).
 //Since sqrt(5) < sqrt(10), therefore (1, 2) is closer to the origin.
 
 console.log(
-  `"Here are the k points closest the origin: " ${findClosestPoints(
-    [
-      [1, 3],
-      [3, 4],
-      [2, -1],
-    ],
-    2
-  )}`
+ `"Here are the k points closest the origin: " ${findClosestPoints(
+ [
+ [1, 3],
+ [3, 4],
+ [2, -1],
+ ],
+ 2
+ )}`
 );
 //[[1, 3], [2, -1]]
 ```
@@ -207,50 +207,50 @@ https://leetcode.com/problems/minimum-cost-to-connect-sticks/
 
 ```js
 function minimumCostToConnectRopes(ropeLengths) {
-  if (ropeLengths.length === 1) return 0;
+ if (ropeLengths.length === 1) return 0;
 
-  ropeLengths.sort((a, b) => a - b);
+ ropeLengths.sort((a, b) => a - b);
 
-  let totalCost = 0;
+ let totalCost = 0;
 
-  while (ropeLengths.length) {
-    let firstRope = ropeLengths.shift();
-    let secondRope = ropeLengths.shift();
-    let currentCost = firstRope + secondRope;
-    totalCost += currentCost;
+ while (ropeLengths.length) {
+ let firstRope = ropeLengths.shift();
+ let secondRope = ropeLengths.shift();
+ let currentCost = firstRope + secondRope;
+ totalCost += currentCost;
 
-    if (ropeLengths.length === 0) return totalCost;
+ if (ropeLengths.length === 0) return totalCost;
 
-    //Binary Search
-    let start = 0;
-    let end = ropeLengths.length;
+ //Binary Search
+ let start = 0;
+ let end = ropeLengths.length;
 
-    while (start < end) {
-      let mid = start + Math.floor((end - start) / 2);
+ while (start < end) {
+ let mid = start + Math.floor((end - start) / 2);
 
-      if (currentCost < ropeLengths[mid]) end = mid;
-      else start = mid + 1;
-    }
-    ropeLengths.splice(start, 0, currentCost);
-  }
+ if (currentCost < ropeLengths[mid]) end = mid;
+ else start = mid + 1;
+ }
+ ropeLengths.splice(start, 0, currentCost);
+ }
 }
 
 console.log(
-  `Minimum cost to connect ropes: ${minimumCostToConnectRopes([1, 3, 11, 5])}`
+ `Minimum cost to connect ropes: ${minimumCostToConnectRopes([1, 3, 11, 5])}`
 );
 //33
 //First connect 1+3(=4), then 4+5(=9), and then 9+11(=20). So the total cost is 33 (4+9+20)
 
 console.log(
-  `Minimum cost to connect ropes: ${minimumCostToConnectRopes([3, 4, 5, 6])}`
+ `Minimum cost to connect ropes: ${minimumCostToConnectRopes([3, 4, 5, 6])}`
 );
 //36
 //First connect 3+4(=7), then 5+6(=11), 7+11(=18). Total cost is 36 (7+11+18)
 
 console.log(
-  `Minimum cost to connect ropes: ${minimumCostToConnectRopes([
-    1, 3, 11, 5, 2,
-  ])}`
+ `Minimum cost to connect ropes: ${minimumCostToConnectRopes([
+ 1, 3, 11, 5, 2,
+ ])}`
 );
 //42
 //First connect 1+2(=3), then 3+3(=6), 6+5(=11), 11+11(=22). Total cost is 42 (3+6+11+22)
@@ -259,7 +259,7 @@ console.log(
 - Given `N` ropes, we need `O(N^2)` for the <b>Binary Search</b>.
 - The space complexity will be `O(1)` .
 
-## 👩🏽‍🦯 Top 'K' Frequent Numbers (medium)
+## ‍ Top 'K' Frequent Numbers (medium)
 
 https://leetcode.com/problems/top-k-frequent-elements/
 
@@ -267,59 +267,59 @@ https://leetcode.com/problems/top-k-frequent-elements/
 
 ```js
 function findKFrequentNumbers(nums, k) {
-  const numMap = new Map();
-  for (number of nums) {
-    numMap.set(number, (numMap.get(number) || 0) + 1);
-  }
+ const numMap = new Map();
+ for (number of nums) {
+ numMap.set(number, (numMap.get(number) || 0) + 1);
+ }
 
-  const mapKeys = [...numMap.keys()];
-  const finalIndex = mapKeys.length - k;
+ const mapKeys = [...numMap.keys()];
+ const finalIndex = mapKeys.length - k;
 
-  let start = 0;
-  let end = mapKeys.length - 1;
+ let start = 0;
+ let end = mapKeys.length - 1;
 
-  //Quicksort
-  while (start <= end) {
-    const pivotPoint = Math.floor(Math.random() * (end - start + 1) + start);
-    const pivotIndex = pivotHelper(pivotPoint, start, end);
+ //Quicksort
+ while (start <= end) {
+ const pivotPoint = Math.floor(Math.random() * (end - start + 1) + start);
+ const pivotIndex = pivotHelper(pivotPoint, start, end);
 
-    if (pivotIndex === finalIndex) {
-      return mapKeys.slice(finalIndex);
-    }
-    if (pivotIndex < finalIndex) {
-      start = pivotIndex + 1;
-    } else {
-      end = pivotIndex - 1;
-    }
-    function pivotHelper(pivotPoint, start, end) {
-      //move the pivotPoint to the end
-      [mapKeys[pivotPoint], mapKeys[end]] = [mapKeys[end], mapKeys[pivotPoint]];
-      let swapIndex = start;
+ if (pivotIndex === finalIndex) {
+ return mapKeys.slice(finalIndex);
+ }
+ if (pivotIndex < finalIndex) {
+ start = pivotIndex + 1;
+ } else {
+ end = pivotIndex - 1;
+ }
+ function pivotHelper(pivotPoint, start, end) {
+ //move the pivotPoint to the end
+ [mapKeys[pivotPoint], mapKeys[end]] = [mapKeys[end], mapKeys[pivotPoint]];
+ let swapIndex = start;
 
-      for (let i = start; i < end; i++) {
-        if (numMap.get(mapKeys[i]) < numMap.get(mapKeys[end])) {
-          [mapKeys[i], mapKeys[swapIndex]] = [mapKeys[swapIndex], mapKeys[i]];
-          swapIndex++;
-        }
-      }
-      [mapKeys[end], mapKeys[swapIndex]] = [mapKeys[swapIndex], mapKeys[end]];
-      return swapIndex;
-    }
-  }
+ for (let i = start; i < end; i++) {
+ if (numMap.get(mapKeys[i]) < numMap.get(mapKeys[end])) {
+ [mapKeys[i], mapKeys[swapIndex]] = [mapKeys[swapIndex], mapKeys[i]];
+ swapIndex++;
+ }
+ }
+ [mapKeys[end], mapKeys[swapIndex]] = [mapKeys[swapIndex], mapKeys[end]];
+ return swapIndex;
+ }
+ }
 }
 
 console.log(
-  `Here are the K frequent numbers: ${findKFrequentNumbers(
-    [1, 3, 5, 12, 11, 12, 11],
-    2
-  )}`
+ `Here are the K frequent numbers: ${findKFrequentNumbers(
+ [1, 3, 5, 12, 11, 12, 11],
+ 2
+ )}`
 );
 
 console.log(
-  `Here are the K frequent numbers: ${findKFrequentNumbers(
-    [5, 12, 11, 3, 11],
-    2
-  )}`
+ `Here are the K frequent numbers: ${findKFrequentNumbers(
+ [5, 12, 11, 3, 11],
+ 2
+ )}`
 );
 ```
 
@@ -331,20 +331,20 @@ https://leetcode.com/problems/sort-characters-by-frequency/
 
 ```js
 function sortCharacterByFrequency(str) {
-  let counts = {}
-  for(let char of str){
-    counts[char] ? counts[char]++ : counts[char] = 1
-  }
+ let counts = {}
+ for(let char of str){
+ counts[char] ? counts[char]++ : counts[char] = 1
+ }
 
-  let sortedCharactersArray = Object.keys(counts).sort((a,b) => counts[b] -counts[a])
+ let sortedCharactersArray = Object.keys(counts).sort((a,b) => counts[b] -counts[a])
 
-  let sortedString = ""
+ let sortedString = ""
 
-  for(let char of sortedCharactersArray){
-    sortedString += char.repeat(counts[char])
-  }
+ for(let char of sortedCharactersArray){
+ sortedString += char.repeat(counts[char])
+ }
 
-  return sortedString
+ return sortedString
 };
 
 
@@ -370,37 +370,37 @@ https://leetcode.com/problems/kth-largest-element-in-a-stream/
 
 ```js
 class KthLargest {
-  constructor(k, nums) {
-    this.k = k;
-    this.nums = nums;
-  }
+ constructor(k, nums) {
+ this.k = k;
+ this.nums = nums;
+ }
 
-  add(val) {
-    this.nums = this.nums.sort((a, b) => a - b).splice(-this.k);
-    if (val > this.nums[0] || this.nums.length < this.k) {
-      //sort and return kth largest with Binary Search
-      const insertNewNum = () => {
-        let start = 0;
-        let end = this.k;
+ add(val) {
+ this.nums = this.nums.sort((a, b) => a - b).splice(-this.k);
+ if (val > this.nums[0] || this.nums.length < this.k) {
+ //sort and return kth largest with Binary Search
+ const insertNewNum = () => {
+ let start = 0;
+ let end = this.k;
 
-        while (start < end) {
-          const mid = Math.floor((start + end) / 2);
-          if (this.nums[mid] === val) return mid;
-          if (this.nums[mid] < val) {
-            start = mid + 1;
-          } else {
-            end = mid;
-          }
-        }
-        return start;
-      };
-      while (this.nums.length > this.k) this.nums.shift();
-      this.nums.splice(insertNewNum(), 0, val);
-    }
+ while (start < end) {
+ const mid = Math.floor((start + end) / 2);
+ if (this.nums[mid] === val) return mid;
+ if (this.nums[mid] < val) {
+ start = mid + 1;
+ } else {
+ end = mid;
+ }
+ }
+ return start;
+ };
+ while (this.nums.length > this.k) this.nums.shift();
+ this.nums.splice(insertNewNum(), 0, val);
+ }
 
-    if (this.nums.length >= this.k) return this.nums[this.nums.length - this.k];
-    else return null;
-  }
+ if (this.nums.length >= this.k) return this.nums[this.nums.length - this.k];
+ else return null;
+ }
 }
 
 // Input: [3, 1, 5, 12, 2, 11], K = 4
@@ -440,100 +440,100 @@ Here is what our algorithm will look like:
 
 ```js
 function findClosestElements(arr, K, X) {
-  let windowOfKClosest = [];
-  let idx = binarySearch(arr, X);
-  let windowStart = idx;
-  let windowEnd = idx + 1;
-  const n = arr.length;
+ let windowOfKClosest = [];
+ let idx = binarySearch(arr, X);
+ let windowStart = idx;
+ let windowEnd = idx + 1;
+ const n = arr.length;
 
-  for (let i = 0; i < K; i++) {
-    if (windowStart >= 0 && windowEnd < n) {
-      let diffFromStart = Math.abs(X - arr[windowStart]);
-      let diffFromEnd = Math.abs(X - arr[windowEnd]);
+ for (let i = 0; i < K; i++) {
+ if (windowStart >= 0 && windowEnd < n) {
+ let diffFromStart = Math.abs(X - arr[windowStart]);
+ let diffFromEnd = Math.abs(X - arr[windowEnd]);
 
-      if (diffFromStart <= diffFromEnd) {
-        windowOfKClosest.unshift(arr[windowStart]);
-        windowStart--;
-      } else {
-        windowOfKClosest.push(arr[windowEnd]);
-        windowEnd++;
-      }
-    } else if (windowStart >= 0) {
-      windowOfKClosest.unshift(arr[windowStart]);
-      windowStart--;
-    } else if (windowEnd < n) {
-      windowOfKClosest.push(arr[windowEnd]);
-      windowEnd++;
-    }
-  }
+ if (diffFromStart <= diffFromEnd) {
+ windowOfKClosest.unshift(arr[windowStart]);
+ windowStart--;
+ } else {
+ windowOfKClosest.push(arr[windowEnd]);
+ windowEnd++;
+ }
+ } else if (windowStart >= 0) {
+ windowOfKClosest.unshift(arr[windowStart]);
+ windowStart--;
+ } else if (windowEnd < n) {
+ windowOfKClosest.push(arr[windowEnd]);
+ windowEnd++;
+ }
+ }
 
-  return windowOfKClosest;
+ return windowOfKClosest;
 
-  function binarySearch(arr, X) {
-    let lo = 0;
-    let hi = arr.length - 1;
+ function binarySearch(arr, X) {
+ let lo = 0;
+ let hi = arr.length - 1;
 
-    while (lo <= hi) {
-      const mid = Math.floor(lo + (hi - lo) / 2);
+ while (lo <= hi) {
+ const mid = Math.floor(lo + (hi - lo) / 2);
 
-      if (arr[mid] === X) {
-        return mid;
-      }
-      if (arr[mid] < X) {
-        lo = mid + 1;
-      } else {
-        hi = mid - 1;
-      }
-    }
-    if (lo > 0) {
-      return lo - 1;
-    }
-    return lo;
-  }
+ if (arr[mid] === X) {
+ return mid;
+ }
+ if (arr[mid] < X) {
+ lo = mid + 1;
+ } else {
+ hi = mid - 1;
+ }
+ }
+ if (lo > 0) {
+ return lo - 1;
+ }
+ return lo;
+ }
 }
 
 console.log(
-  `'K' closest numbers to 'X' are: ${findClosestElements(
-    [5, 6, 7, 8, 9],
-    3,
-    7
-  )}`
+ `'K' closest numbers to 'X' are: ${findClosestElements(
+ [5, 6, 7, 8, 9],
+ 3,
+ 7
+ )}`
 );
 //Output: [6, 7, 8]
 
 console.log(
-  `'K' closest numbers to 'X' are: ${findClosestElements(
-    [2, 4, 5, 6, 9],
-    3,
-    6
-  )}`
+ `'K' closest numbers to 'X' are: ${findClosestElements(
+ [2, 4, 5, 6, 9],
+ 3,
+ 6
+ )}`
 );
 //Output: [4, 5, 6]
 
 console.log(
-  `'K' closest numbers to 'X' are: ${findClosestElements(
-    [2, 4, 5, 6, 9],
-    3,
-    10
-  )}`
+ `'K' closest numbers to 'X' are: ${findClosestElements(
+ [2, 4, 5, 6, 9],
+ 3,
+ 10
+ )}`
 );
 //Output: [5, 6, 9]
 
 console.log(
-  `'K' closest numbers to 'X' are: ${findClosestElements(
-    [1, 2, 3, 4, 5],
-    4,
-    3
-  )}`
+ `'K' closest numbers to 'X' are: ${findClosestElements(
+ [1, 2, 3, 4, 5],
+ 4,
+ 3
+ )}`
 );
 //Output: [1,2,3,4]
 
 console.log(
-  `'K' closest numbers to 'X' are: ${findClosestElements(
-    [1, 2, 3, 4, 5],
-    4,
-    -1
-  )}`
+ `'K' closest numbers to 'X' are: ${findClosestElements(
+ [1, 2, 3, 4, 5],
+ 4,
+ -1
+ )}`
 );
 //Output: [1,2,3,4]
 ```
@@ -549,24 +549,24 @@ https://leetcode.com/problems/least-number-of-unique-integers-after-k-removals/
 
 ```js
 function findMaximumDistinctElements(nums, k) {
-  let freqMap = new Map();
+ let freqMap = new Map();
 
-  nums.forEach((number) => {
-    freqMap.set(number, freqMap.get(number) + 1 || 1);
-  });
+ nums.forEach((number) => {
+ freqMap.set(number, freqMap.get(number) + 1 || 1);
+ });
 
-  let freq = Array.from(freqMap.values());
-  freq.sort((a, b) => a - b);
+ let freq = Array.from(freqMap.values());
+ freq.sort((a, b) => a - b);
 
-  let results = freq.length;
-  for (let n of freq) {
-    if (k >= n) {
-      k -= n;
-      results--;
-    } else return results;
-  }
+ let results = freq.length;
+ for (let n of freq) {
+ if (k >= n) {
+ k -= n;
+ results--;
+ } else return results;
+ }
 
-  return results;
+ return results;
 }
 
 console.log(`Maximum distinct numbers after removing K numbers: 
@@ -604,33 +604,33 @@ https://www.geeksforgeeks.org/sum-elements-k1th-k2th-smallest-elements/
 
 ```js
 function findSumOfElements(nums, k1, k2) {
-  nums.sort((a, b) => a - b);
+ nums.sort((a, b) => a - b);
 
-  let kSlice = nums.slice(k1, k2 - 1);
-  let kSumBetween = 0;
+ let kSlice = nums.slice(k1, k2 - 1);
+ let kSumBetween = 0;
 
-  kSlice.forEach((n) => (kSumBetween += n));
+ kSlice.forEach((n) => (kSumBetween += n));
 
-  return kSumBetween;
+ return kSumBetween;
 }
 
 console.log(
-  `Sum of all numbers between k1 and k2 smallest numbers: ${findSumOfElements(
-    [1, 3, 12, 5, 15, 11],
-    3,
-    6
-  )}`
+ `Sum of all numbers between k1 and k2 smallest numbers: ${findSumOfElements(
+ [1, 3, 12, 5, 15, 11],
+ 3,
+ 6
+ )}`
 );
 //23
 //The 3rd smallest number is 5 and 6th smallest number 15.
 // The sum of numbers coming between 5 and 15 is 23 (11+12).
 
 console.log(
-  `Sum of all numbers between k1 and k2 smallest numbers: ${findSumOfElements(
-    [3, 5, 8, 7],
-    1,
-    4
-  )}`
+ `Sum of all numbers between k1 and k2 smallest numbers: ${findSumOfElements(
+ [3, 5, 8, 7],
+ 1,
+ 4
+ )}`
 );
 //12
 //The sum of the numbers between the 1st smallest number (3)
@@ -645,35 +645,35 @@ https://leetcode.com/problems/reorganize-string/
 
 ```js
 function rearrangeString(str) {
-  //Build a hashMap based on char count
-  const strMap = new Map();
+ //Build a hashMap based on char count
+ const strMap = new Map();
 
-  for (const char of str) {
-    strMap.set(char, strMap.get(char) + 1 || 1);
-  }
+ for (const char of str) {
+ strMap.set(char, strMap.get(char) + 1 || 1);
+ }
 
-  //sort based on char frequency in descending order
-  const sortedMap = new Map([...strMap.entries()].sort((a, b) => b[1] - a[1]));
+ //sort based on char frequency in descending order
+ const sortedMap = new Map([...strMap.entries()].sort((a, b) => b[1] - a[1]));
 
-  //is first value of sortedMap > half of str.length,
-  //because a character count that is larger than half of the string length is considered invalid
-  if (sortedMap.values().next().value > (str.length + 1) / 2) return "";
+ //is first value of sortedMap > half of str.length,
+ //because a character count that is larger than half of the string length is considered invalid
+ if (sortedMap.values().next().value > (str.length + 1) / 2) return "";
 
-  let result = [];
-  let index = 0;
+ let result = [];
+ let index = 0;
 
-  for (let [key, value] of sortedMap) {
-    while (value--) {
-      //Start filling characters to all the even indexs, i.e. 0, 2, 4,...,
-      result[index] = key;
-      index += 2;
-      // when we got to the end, start filling odd indexes i.e. 1,3,5,...
-      //By filling the characters this way, we can make sure that no same characters will be adjacent to each other
-      if (index >= str.length) index = 1;
-    }
-  }
+ for (let [key, value] of sortedMap) {
+ while (value--) {
+ //Start filling characters to all the even indexs, i.e. 0, 2, 4,...,
+ result[index] = key;
+ index += 2;
+ // when we got to the end, start filling odd indexes i.e. 1,3,5,...
+ //By filling the characters this way, we can make sure that no same characters will be adjacent to each other
+ if (index >= str.length) index = 1;
+ }
+ }
 
-  return result.join("");
+ return result.join("");
 }
 
 console.log(`Rearranged string: ${rearrangeString("aappp")}`);
@@ -681,7 +681,7 @@ console.log(`Rearranged string: ${rearrangeString("Programming")}`);
 console.log(`Rearranged string: ${rearrangeString("aapa")}`);
 ```
 
-## 🌟 Rearrange String K Distance Apart (hard)
+## Rearrange String K Distance Apart (hard)
 
 https://leetcode.com/problems/rearrange-string-k-distance-apart/
 
@@ -689,33 +689,33 @@ https://leetcode.com/problems/rearrange-string-k-distance-apart/
 
 ```js
 function rearrangeString(str, k) {
-  if (str.length < 2 || !k) return str;
-  const buckets = [];
-  let a = 'a'.charCodeAt(0);
-  for (let i = 0; i < str.length; i++) {
-    let key = str.charCodeAt(i) - a;
-    buckets[key] = (buckets[key] || 0) + 1;
-  }
-  let res = '';
-  let added = { length: 0 };
-  while (res.length < str.length) {
-    let maxIndex = -1;
-    for (let i = 0; i < buckets.length; i++) {
-      if (
-        buckets[i] &&
-        !added[i] &&
-        (maxIndex === -1 || buckets[i] > buckets[maxIndex])
-      ) {
-        maxIndex = i;
-      }
-    }
-    if (maxIndex === -1) return '';
-    res += String.fromCharCode(a + maxIndex);
-    buckets[maxIndex]--;
-    added[maxIndex] = 1;
-    if (++added.length === k) added = { length: 0 };
-  }
-  return res;
+ if (str.length < 2 || !k) return str;
+ const buckets = [];
+ let a = 'a'.charCodeAt(0);
+ for (let i = 0; i < str.length; i++) {
+ let key = str.charCodeAt(i) - a;
+ buckets[key] = (buckets[key] || 0) + 1;
+ }
+ let res = '';
+ let added = { length: 0 };
+ while (res.length < str.length) {
+ let maxIndex = -1;
+ for (let i = 0; i < buckets.length; i++) {
+ if (
+ buckets[i] &&
+ !added[i] &&
+ (maxIndex === -1 || buckets[i] > buckets[maxIndex])
+ ) {
+ maxIndex = i;
+ }
+ }
+ if (maxIndex === -1) return '';
+ res += String.fromCharCode(a + maxIndex);
+ buckets[maxIndex]--;
+ added[maxIndex] = 1;
+ if (++added.length === k) added = { length: 0 };
+ }
+ return res;
 }
 
 console.log(`Reorganized string: ${rearrangeString('aabbcc', 3)}`);
@@ -747,7 +747,7 @@ console.log(`Reorganized string: ${rearrangeString('aab', 2)}`);
 //We cannot find an arrangement of the string where any two 'a' are 3 distance apart.
 ```
 
-## 🌟 🔎 Scheduling Tasks (hard)
+## Scheduling Tasks (hard)
 
 https://leetcode.com/problems/task-scheduler/
 
@@ -760,7 +760,7 @@ This problem follows the Top `K` Elements pattern and is quite similar to Rearra
 
 ### A mental model for solving this problem
 
-❗ Explaination referenced [here](https://leetcode.com/problems/task-scheduler/discuss/1874475/Easy-Solution-with-Writeup)
+ Explaination referenced [here](https://leetcode.com/problems/task-scheduler/discuss/1874475/Easy-Solution-with-Writeup)
 
 Consider the following input:
 
@@ -811,210 +811,210 @@ The sequence above is the shortest possible sequence these tasks can be schedule
 
 The answer to the problem is the number of `tasks` + the number of cooldown periods.
 
-### 😕 Heap Solution
+### Heap Solution
 
 Following a similar approach, we will use a <b>Max Heap</b> to execute the highest frequency task first. After executing a task we decrease its frequency and put it in a waiting list. In each iteration, we will try to execute as many as `k+1` tasks. For the next iteration, we will put all the waiting tasks back in the <b>Max Heap</b> . If, for any iteration, we are not able to execute `k+1` tasks, the CPU has to remain idle for the remaining time in the next iteration.
 
 ```js
 class Heap {
-  constructor(data = []) {
-    this.data = data;
-    this.comparator = (a, b) => a - b;
-    this.heapify();
-  }
+ constructor(data = []) {
+ this.data = data;
+ this.comparator = (a, b) => a - b;
+ this.heapify();
+ }
 
-  heapify() {
-    //O(nlog(n))
-    if (this.size() < 2) return;
-    for (let i = 1; i < this.size(); i++) {
-      this.bubbleUp(i);
-    }
-  }
+ heapify() {
+ //O(nlog(n))
+ if (this.size() < 2) return;
+ for (let i = 1; i < this.size(); i++) {
+ this.bubbleUp(i);
+ }
+ }
 
-  peek() {
-    // O(1)
-    if (this.size() === 0) return null;
-    return this.data[0];
-  }
+ peek() {
+ // O(1)
+ if (this.size() === 0) return null;
+ return this.data[0];
+ }
 
-  offer(value) {
-    // O(log(n))
-    this.data.push(value);
-    this.bubbleUp(this.size() - 1);
-  }
+ offer(value) {
+ // O(log(n))
+ this.data.push(value);
+ this.bubbleUp(this.size() - 1);
+ }
 
-  poll() {
-    // O(log(n))
-    if (this.size() === 0) return null;
-    const result = this.data[0];
-    const last = this.data.pop();
-    if (this.size() !== 0) {
-      this.data[0] = last;
-      this.bubbleDown(0);
-    }
-    return result;
-  }
+ poll() {
+ // O(log(n))
+ if (this.size() === 0) return null;
+ const result = this.data[0];
+ const last = this.data.pop();
+ if (this.size() !== 0) {
+ this.data[0] = last;
+ this.bubbleDown(0);
+ }
+ return result;
+ }
 
-  bubbleUp(index) {
-    // O(log(n))
-    while (index > 0) {
-      const parentIndex = (index - 1) >> 1;
-      if (this.comparator(this.data[index], this.data[parentIndex]) < 0) {
-        this.swap(index, parentIndex);
-        index = parentIndex;
-      } else {
-        break;
-      }
-    }
-  }
+ bubbleUp(index) {
+ // O(log(n))
+ while (index > 0) {
+ const parentIndex = (index - 1) >> 1;
+ if (this.comparator(this.data[index], this.data[parentIndex]) < 0) {
+ this.swap(index, parentIndex);
+ index = parentIndex;
+ } else {
+ break;
+ }
+ }
+ }
 
-  bubbleDown(index) {
-    // O(log(n))
-    const lastIndex = this.size() - 1;
+ bubbleDown(index) {
+ // O(log(n))
+ const lastIndex = this.size() - 1;
 
-    while (true) {
-      const startIndex = index * 2 + 1;
-      const endIndex = index * 2 + 2;
-      let findIndex = ind;
-      if (
-        startIndex <= lastIndex &&
-        this.comparator(this.data[startIndex], this.data[findIndex]) < 0
-      ) {
-        findIndex = starttIndex;
-      }
-      if (
-        endIndex <= lastIndex &&
-        this.comparator(this.data[endIndex], this.data[findIndex]) < 0
-      ) {
-        findIndex = endIndex;
-      }
-      if (index !== findIndex) {
-        this.swap(index, findIndex);
-        index = findIndex;
-      } else {
-        break;
-      }
-    }
-  }
+ while (true) {
+ const startIndex = index * 2 + 1;
+ const endIndex = index * 2 + 2;
+ let findIndex = ind;
+ if (
+ startIndex <= lastIndex &&
+ this.comparator(this.data[startIndex], this.data[findIndex]) < 0
+ ) {
+ findIndex = starttIndex;
+ }
+ if (
+ endIndex <= lastIndex &&
+ this.comparator(this.data[endIndex], this.data[findIndex]) < 0
+ ) {
+ findIndex = endIndex;
+ }
+ if (index !== findIndex) {
+ this.swap(index, findIndex);
+ index = findIndex;
+ } else {
+ break;
+ }
+ }
+ }
 
-  swap(index1, index2) {
-    // O(1)
-    [this.data[index1], this.data[index2]] = [
-      this.data[index2],
-      this.data[index1],
-    ];
-  }
+ swap(index1, index2) {
+ // O(1)
+ [this.data[index1], this.data[index2]] = [
+ this.data[index2],
+ this.data[index1],
+ ];
+ }
 
-  size() {
-    // O(1)
-    return this.data.length;
-  }
+ size() {
+ // O(1)
+ return this.data.length;
+ }
 }
 
 function scheduleTasks(tasks, k) {
-  let intervalCount = 0;
+ let intervalCount = 0;
 
-  let taskFreqMap = new Map();
+ let taskFreqMap = new Map();
 
-  tasks.forEach((char) => {
-    taskFreqMap.set(char, taskFreqMap.get(char) + 1 || 1);
-  });
+ tasks.forEach((char) => {
+ taskFreqMap.set(char, taskFreqMap.get(char) + 1 || 1);
+ });
 
-  const maxHeap = new Heap();
+ const maxHeap = new Heap();
 
-  //add all taks to the heap
-  Object.keys(taskFreqMap).forEach((char) => {
-    // 😕
-    maxHeap.offer([taskFrequencyMap[char], char]);
-  });
+ //add all taks to the heap
+ Object.keys(taskFreqMap).forEach((char) => {
+ // 
+ maxHeap.offer([taskFrequencyMap[char], char]);
+ });
 
-  while (maxHeap.length > 0) {
-    const waitList = [];
-    let n = k + 1; // try to execute as many as 'k+1' tasks from the max-heap
-    while (n > 0 && maxHeap.length > 0) {
-      intervalCount++;
-      const [frequency, char] = maxHeap.pop();
-      if (frequency > 1) {
-        // decrement the frequency and add to the waitList
-        waitList.push([frequency - 1, char]);
-      }
-      n -= 1;
-    }
+ while (maxHeap.length > 0) {
+ const waitList = [];
+ let n = k + 1; // try to execute as many as 'k+1' tasks from the max-heap
+ while (n > 0 && maxHeap.length > 0) {
+ intervalCount++;
+ const [frequency, char] = maxHeap.pop();
+ if (frequency > 1) {
+ // decrement the frequency and add to the waitList
+ waitList.push([frequency - 1, char]);
+ }
+ n -= 1;
+ }
 
-    // put all the waiting list back on the heap
-    waitList.forEach((task) => maxHeap.offer(task));
+ // put all the waiting list back on the heap
+ waitList.forEach((task) => maxHeap.offer(task));
 
-    if (maxHeap.length > 0) {
-      intervalCount += n; // we'll be having 'n' idle intervals for the next iteration
-    }
-  }
+ if (maxHeap.length > 0) {
+ intervalCount += n; // we'll be having 'n' idle intervals for the next iteration
+ }
+ }
 
-  return intervalCount;
+ return intervalCount;
 }
 
 console.log(
-  `Minimum intervals needed to execute all tasks: ${scheduleTasks(
-    ["a", "a", "a", "b", "c", "c"],
-    2
-  )}`
+ `Minimum intervals needed to execute all tasks: ${scheduleTasks(
+ ["a", "a", "a", "b", "c", "c"],
+ 2
+ )}`
 );
 //7
 //a -> c -> b -> a -> c -> idle -> a
 console.log(
-  `Minimum intervals needed to execute all tasks: ${scheduleTasks(
-    ["a", "b", "a"],
-    3
-  )}`
+ `Minimum intervals needed to execute all tasks: ${scheduleTasks(
+ ["a", "b", "a"],
+ 3
+ )}`
 );
 //5
 //a -> b -> idle -> idle -> a
 ```
 
 - The time complexity of the above algorithm is `O(N∗logN)`
-  where `N` is the number of tasks. Our while loop will iterate once for each occurrence of the task in the input (i.e. `N`) and in each iteration we will remove a task from the <b>heap</b> which will take `O(logN)`time. Hence the overall time complexity of our algorithm is `O(N*logN)`.
+ where `N` is the number of tasks. Our while loop will iterate once for each occurrence of the task in the input (i.e. `N`) and in each iteration we will remove a task from the <b>heap</b> which will take `O(logN)`time. Hence the overall time complexity of our algorithm is `O(N*logN)`.
 - The space complexity will be `O(N)`, as in the worst case, we need to store all the `N` tasks in the <b>HashMap</b>.
 
 ### Greedy HashMap Solution
 
 ```js
 function scheduleTasks(tasks, k) {
-  let taskFreqMap = new Map();
+ let taskFreqMap = new Map();
 
-  let intervalMax = 0;
+ let intervalMax = 0;
 
-  let taskCountMax = 0;
+ let taskCountMax = 0;
 
-  tasks.forEach((char) => {
-    taskFreqMap.set(char, taskFreqMap.get(char) + 1 || 1);
+ tasks.forEach((char) => {
+ taskFreqMap.set(char, taskFreqMap.get(char) + 1 || 1);
 
-    //set intervalMax and taskCountMax only if we have a new max
-    if (taskFreqMap.get(char) > intervalMax) {
-      intervalMax = taskFreqMap.get(char);
-      taskCountMax = 1;
-    } else if (taskFreqMap.get(char) === intervalMax) {
-      //otherwise, increment taskCountMax
-      taskCountMax++;
-    }
-  });
+ //set intervalMax and taskCountMax only if we have a new max
+ if (taskFreqMap.get(char) > intervalMax) {
+ intervalMax = taskFreqMap.get(char);
+ taskCountMax = 1;
+ } else if (taskFreqMap.get(char) === intervalMax) {
+ //otherwise, increment taskCountMax
+ taskCountMax++;
+ }
+ });
 
-  return Math.max(tasks.length, (intervalMax - 1) * (k + 1) + taskCountMax);
+ return Math.max(tasks.length, (intervalMax - 1) * (k + 1) + taskCountMax);
 }
 
 console.log(
-  `Minimum intervals needed to execute all tasks: ${scheduleTasks(
-    ["A", "A", "A", "B", "B", "B"],
-    2
-  )}`
+ `Minimum intervals needed to execute all tasks: ${scheduleTasks(
+ ["A", "A", "A", "B", "B", "B"],
+ 2
+ )}`
 );
 // 8
 // A -> B -> idle -> A -> B -> idle -> A -> B
 // There is at least 2 units of time between any two same tasks.
 
 console.log(
-  `Minimum intervals needed to execute all tasks: ${scheduleTasks(
-    ["A", "A", "A", "B", "B", "B"],
-    0
-  )}`
+ `Minimum intervals needed to execute all tasks: ${scheduleTasks(
+ ["A", "A", "A", "B", "B", "B"],
+ 0
+ )}`
 );
 // 6
 // On this case any permutation of size 6 would work since n = 0.
@@ -1023,10 +1023,10 @@ console.log(
 // ["B","B","B","A","A","A"]
 
 console.log(
-  `Minimum intervals needed to execute all tasks: ${scheduleTasks(
-    ["A", "A", "A", "A", "A", "A", "B", "C", "D", "E", "F", "G"],
-    2
-  )}`
+ `Minimum intervals needed to execute all tasks: ${scheduleTasks(
+ ["A", "A", "A", "A", "A", "A", "B", "C", "D", "E", "F", "G"],
+ 2
+ )}`
 );
 // 16
 // One possible solution is
@@ -1034,7 +1034,7 @@ console.log(
 // -> idle -> idle -> A -> idle -> idle -> A
 ```
 
-## 🌟Frequency Stack (hard)
+## Frequency Stack (hard)
 
 https://leetcode.com/problems/maximum-frequency-stack/
 
@@ -1045,7 +1045,7 @@ https://leetcode.com/problems/maximum-frequency-stack/
 
 ### Frequency Map & Stack Solution
 
-❗ Explaination referenced [here](https://leetcode.com/problems/maximum-frequency-stack/discuss/1086543/JS-Python-Java-C%2B%2B-or-Frequency-Map-and-Stack-Solution-w-Explanation)
+ Explaination referenced [here](https://leetcode.com/problems/maximum-frequency-stack/discuss/1086543/JS-Python-Java-C%2B%2B-or-Frequency-Map-and-Stack-Solution-w-Explanation)
 
 There are many ways to solve this problem, but the description gives us two clues as to the most efficient way to do so.
 
@@ -1064,30 +1064,30 @@ Since our frequencies are <b>1-indexed</b> and the <b>stack</b> is <b>0-indexed<
 
 ```js
 class FreqStack {
-  constructor() {
-    this.freqMap = new Map();
-    this.freqStack = [];
-  }
+ constructor() {
+ this.freqMap = new Map();
+ this.freqStack = [];
+ }
 
-  push(value) {
-    let freq = this.freqMap.get(value) + 1 || 0;
-    this.freqMap.set(value, freq);
+ push(value) {
+ let freq = this.freqMap.get(value) + 1 || 0;
+ this.freqMap.set(value, freq);
 
-    if (!this.freqStack[freq]) {
-      this.freqStack[freq] = [value];
-    } else {
-      this.freqStack[freq].push(value);
-    }
-    console.log(this.freqStack);
-  }
+ if (!this.freqStack[freq]) {
+ this.freqStack[freq] = [value];
+ } else {
+ this.freqStack[freq].push(value);
+ }
+ console.log(this.freqStack);
+ }
 
-  pop() {
-    let top = this.freqStack[this.freqStack.length - 1];
-    let value = top.pop();
-    if (!top.length) this.freqStack.pop();
-    this.freqMap.set(value, this.freqMap.get(value) - 1);
-    return value;
-  }
+ pop() {
+ let top = this.freqStack[this.freqStack.length - 1];
+ let value = top.pop();
+ if (!top.length) this.freqStack.pop();
+ this.freqMap.set(value, this.freqMap.get(value) - 1);
+ return value;
+ }
 }
 
 // Input

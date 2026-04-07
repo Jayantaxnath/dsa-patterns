@@ -1,31 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>DSA Pattern Tracker</title>
   <link rel="stylesheet" href="style.css">
-  
+
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  
+
   <!-- Marked.js for parsing Markdown -->
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <!-- DOMPurify for sanitizing Markdown -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.3/purify.min.js"></script>
   <!-- Highlight.js for code block syntax highlighting -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark-dimmed.min.css">
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark-dimmed.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
-  
+
   <!-- Vercel Web Analytics -->
   <script defer src="/_vercel/insights/script.js"></script>
 </head>
+
 <body>
   <div class="app-container">
     <!-- Left Sidebar: Patterns List -->
-    <nav class="sidebar">
+    <nav class="sidebar" id="sidebar">
+      <div class="resizer left-resizer" id="leftResizer"></div>
       <header class="sidebar-header">
         <h1>DSA Patterns</h1>
         <div class="global-progress">
@@ -58,7 +62,7 @@
           </select>
         </div>
       </header>
-      
+
       <div class="scroll-area" id="mainScrollArea">
         <div class="pattern-description markdown-body fade-in hidden" id="patternDescription"></div>
         <div class="problem-list fade-in hidden" id="problemList">
@@ -70,12 +74,12 @@
     <!-- Right Panel: Problem Details & Notes -->
     <aside class="details-panel" id="detailsPanel">
       <div class="resizer" id="resizer"></div>
-      
+
       <div class="details-placeholder" id="detailsPlaceholder">
         <div class="placeholder-icon">📝</div>
         <p>Select a problem to view details and add notes.</p>
       </div>
-      
+
       <div class="details-content hidden" id="detailsContent">
         <header class="details-header">
           <div class="details-actions">
@@ -90,13 +94,16 @@
             <button id="closeDetailsBtn" class="close-btn" title="Close Panel">✕</button>
           </div>
         </header>
-        
+
         <div class="scroll-area details-scroll">
           <div class="problem-body markdown-body" id="problemBody"></div>
-          
+
           <div class="notes-section">
-            <label for="problemNotes"><h3>My Notes</h3></label>
-            <textarea id="problemNotes" placeholder="Write your thoughts, time complexity, or alternative approaches here..."></textarea>
+            <label for="problemNotes">
+              <h3>My Notes</h3>
+            </label>
+            <textarea id="problemNotes"
+              placeholder="Write your thoughts, time complexity, or alternative approaches here..."></textarea>
           </div>
         </div>
       </div>
@@ -106,4 +113,5 @@
   <script src="data.js"></script>
   <script src="app.js"></script>
 </body>
+
 </html>

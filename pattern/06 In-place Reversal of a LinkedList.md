@@ -14,42 +14,42 @@ In a stepwise manner, we will reverse the `current` node by pointing it to the `
 
 ````js
 class Node {
-  constructor(value, next=null) {
-    this.value = value;
-    this.next = next
-  }
-  
-  printList() {
-    let result = ""
-    let temp = this
-    while(temp !== null) {
-      result += temp.value + " "
-      temp = temp.next
-    }
-    return result
-  }
+ constructor(value, next=null) {
+ this.value = value;
+ this.next = next
+ }
+
+ printList() {
+ let result = ""
+ let temp = this
+ while(temp !== null) {
+ result += temp.value + " "
+ temp = temp.next
+ }
+ return result
+ }
 }
 
 function reverse(head) {
-  let current = head
-  let previous = null
-  
-  while(current !== null) {
-    //temporarily store the next node
-    next = current.next
-    
-    //reverse the current node
-    current.next = previous
-    
-    //before we move to the next node, 
-    //point previous to the current node
-    previous = current
-    
-    //move on to the next node
-    current = next
-  }
-  
-  return previous
+ let current = head
+ let previous = null
+
+ while(current !== null) {
+ //temporarily store the next node
+ next = current.next
+
+ //reverse the current node
+ current.next = previous
+
+ //before we move to the next node, 
+ //point previous to the current node
+ previous = current
+
+ //move on to the next node
+ current = next
+ }
+
+ return previous
 }
 
 head = new Node(2)
@@ -77,79 +77,79 @@ The problem follows the <b></i>in-place</i> Reversal</b> of a <b>LinkedList</b> 
 
 ````js
 class Node {
-  constructor(value, next = null) {
-    this.value = value
-    this.next = next
-  }
-  
-  getList() {
-    let result = ""
-    let temp = this
-    while(temp !== null) {
-      result += temp.value + " "
-      temp = temp.next
-    }
-    return result
-  }
+ constructor(value, next = null) {
+ this.value = value
+ this.next = next
+ }
+
+ getList() {
+ let result = ""
+ let temp = this
+ while(temp !== null) {
+ result += temp.value + " "
+ temp = temp.next
+ }
+ return result
+ }
 }
 
 function reverseSubList(head, p, q) {
-  if(p === q) {
-    return head
-  }
-  
-  //after skipping p-1 nodes, current will 
-  //point to the p th node
-  
-  let current = head
-  let previous = null
-  
-  let i = 0
-  
-  while(current !== null && i < p - 1) {
-    previous = current
-    current = current.next
-    i++
-  }
-  
-  //we are interested in three parts ofthe LL, 
-  //1. the part before index p
-  //2. the part between p and q
-  //3. and the part after index q
-  
-  const lastNodeOfFirstPart = previous
-  
-  //after reversing the LL current will
-  //become the last node of the subList
-  const lastNodeOfSubList = current
-  
-  //will be used to temporarily store the next node
-  let next = null
-  
-  i = 0
-  //reverse nodes between p and q
-  
-  while (current !== null && i < q - p + 1) {
-    next = current.next
-    current.next = previous
-    previous = current
-    current = next
-    i++
-  }
-  
-  //connect with the first part
-  if(lastNodeOfFirstPart !== null) {
-    //previous is now the first node of the sub list
-    lastNodeOfFirstPart.next = previous
-    //this means p === 1 i.e., we are changing
-    //the first node(head) of the LL
-  } else {
-    head = previous
-  }
-  
-  //connect with the last part
-  lastNodeOfSubList.next = current
-  return head
+ if(p === q) {
+ return head
+ }
+
+ //after skipping p-1 nodes, current will 
+ //point to the p th node
+
+ let current = head
+ let previous = null
+
+ let i = 0
+
+ while(current !== null && i < p - 1) {
+ previous = current
+ current = current.next
+ i++
+ }
+
+ //we are interested in three parts ofthe LL, 
+ //1. the part before index p
+ //2. the part between p and q
+ //3. and the part after index q
+
+ const lastNodeOfFirstPart = previous
+
+ //after reversing the LL current will
+ //become the last node of the subList
+ const lastNodeOfSubList = current
+
+ //will be used to temporarily store the next node
+ let next = null
+
+ i = 0
+ //reverse nodes between p and q
+
+ while (current !== null && i < q - p + 1) {
+ next = current.next
+ current.next = previous
+ previous = current
+ current = next
+ i++
+ }
+
+ //connect with the first part
+ if(lastNodeOfFirstPart !== null) {
+ //previous is now the first node of the sub list
+ lastNodeOfFirstPart.next = previous
+ //this means p === 1 i.e., we are changing
+ //the first node(head) of the LL
+ } else {
+ head = previous
+ }
+
+ //connect with the last part
+ lastNodeOfSubList.next = current
+ return head
 }
 
 head = new Node(1)
@@ -164,11 +164,11 @@ console.log(`Nodes of reversed LinkedList are: ${reverseSubList(head, 2, 4).getL
 - The time complexity of our algorithm will be `O(N)` where `N` is the total number of nodes in the <b>LinkedList</b>.
 - We only used constant space, therefore, the space complexity of our algorithm is `O(1)`.
 
-> 🌟 Reverse the first `k` elements of a given <b>LinkedList</b>.
+> Reverse the first `k` elements of a given <b>LinkedList</b>.
 
 This problem can be easily converted to our parent problem; to reverse the first `k` nodes of the list, we need to pass `p=1` and `q=k`.
 
-> 🌟 Given a <b>LinkedList</b> with `n` nodes, reverse it based on its size in the following way:
+> Given a <b>LinkedList</b> with `n` nodes, reverse it based on its size in the following way:
 > 1. If `n` is even, reverse the list in a group of `n/2` nodes.
 > 2. If `n` is odd, keep the middle node as it is, reverse the first `n/2` nodes and reverse the last `n/2` nodes.
 
@@ -191,68 +191,68 @@ The problem follows the <b></i>in-place</i> Reversal of a LinkedList</b> pattern
 
 ````js
 class Node {
-  constructor(value, next=null) {
-    this.value = value
-    this.next = next
-  }
-  
-  getList() {
-    let result = ""
-    let temp = this
-    while(temp !== null) {
-      result += temp.value + " "
-      temp = temp.next
-    }
-    return result
-  }
+ constructor(value, next=null) {
+ this.value = value
+ this.next = next
+ }
+
+ getList() {
+ let result = ""
+ let temp = this
+ while(temp !== null) {
+ result += temp.value + " "
+ temp = temp.next
+ }
+ return result
+ }
 }
 
 function reverseEveryKElements(head, k) {
-  //edge cases
-  if(k <= 1 || head === null) {
-    return head
-  }
-  
-  let current = head
-  let previous = null
-  
-  while(true) {
-    const lastNodeOfPreviousPart = previous
-    
-    //after reversing the LL current will
-    //become the last node of the sublist
-    const lastNodeOfSubList = current
-    
-    //will be used to temporaily store the next node
-    let next = null
-    
-    let i = 0;
-    
-    //reverse k nodes
-    while(current !== null && i < k) {
-      next = current.next
-      current.next = previous
-      previous = current
-      current = next
-      i++
-    }
-    
-    //connect with the previous part
-    if(lastNodeOfPreviousPart !== null) {
-      lastNodeOfPreviousPart.next = previous
-    } else {
-      head = previous
-    }
-    
-    //connect with the next part
-    lastNodeOfSubList.next = current
-    
-    if(current === null) {
-      break
-    }
-    previous = lastNodeOfSubList
-  }
-  return head
+ //edge cases
+ if(k <= 1 || head === null) {
+ return head
+ }
+
+ let current = head
+ let previous = null
+
+ while(true) {
+ const lastNodeOfPreviousPart = previous
+
+ //after reversing the LL current will
+ //become the last node of the sublist
+ const lastNodeOfSubList = current
+
+ //will be used to temporaily store the next node
+ let next = null
+
+ let i = 0;
+
+ //reverse k nodes
+ while(current !== null && i < k) {
+ next = current.next
+ current.next = previous
+ previous = current
+ current = next
+ i++
+ }
+
+ //connect with the previous part
+ if(lastNodeOfPreviousPart !== null) {
+ lastNodeOfPreviousPart.next = previous
+ } else {
+ head = previous
+ }
+
+ //connect with the next part
+ lastNodeOfSubList.next = current
+
+ if(current === null) {
+ break
+ }
+ previous = lastNodeOfSubList
+ }
+ return head
 }
 
 head = new Node(1)
@@ -270,7 +270,7 @@ console.log(`Nodes of reversed LinkedList are: ${reverseEveryKElements(head, 3).
 - The time complexity of our algorithm will be `O(N)` where `N` is the total number of nodes in the <b>LinkedList</b>. 
 - We only used constant space, therefore, the space complexity of our algorithm is `O(1)`. 
 
-## 🌟 Reverse alternating K-element Sub-list (medium)
+## Reverse alternating K-element Sub-list (medium)
 > Given the head of a <b>LinkedList</b> and a number `K`, <b>reverse every alternating `K` sized sub-list</b> starting from the head.
 > 
 > If, in the end, you are left with a sub-list with less than `K` elements, reverse it too.
@@ -278,67 +278,67 @@ console.log(`Nodes of reversed LinkedList are: ${reverseEveryKElements(head, 3).
 The problem follows the <b></i>in-place</i> Reversal of a LinkedList</b> pattern and is quite similar to <b>Reverse every K-element Sub-list</b>. The only difference is that we have to skip `K` alternating elements. We can follow a similar approach, and in each iteration after reversing `K` elements, we will skip the next `K` elements.
 
 ````class Node {
-  constructor(value, next = null) {
-    this.value = value
-    this.next = next
+ constructor(value, next = null) {
+ this.value = value
+ this.next = next
 }
 
-  printList() {
-    let temp = this
-    while(temp !== null) {
-      process.stdout.write(`${temp.value} `);
-      temp = temp.next
-    }
-    console.log()
-  }
+ printList() {
+ let temp = this
+ while(temp !== null) {
+ process.stdout.write(`${temp.value} `);
+ temp = temp.next
+ }
+ console.log()
+ }
 }
 
 function reverseAlternateKElements(head, k) {
-  if(head === null || k <= 1) return head
-  
-  let current = head
-  let previous = null
-  
-  while (current !== null) {
-    //break if we've reached the end of the list
-    const lastNodeOfPreviousPart = previous
-    
-    //after reversing the LinkedList current will become the last node of the sub-list
-    const lastNodeOfSubList = current
-    
-    //will be used to temporarily store the next node
-    let next = null
-    
-    //reverse k nodes
-    let i = 0
-    while(current !== null && i < k) {
-      next = current.next
-      current.next = previous
-      previous = current
-      current = next
-      i++
-    }
-    
-    //connect with the previous part
-    if(lastNodeOfPreviousPart !== null) {
-      lastNodeOfPreviousPart.next = previous
-    } else {
-      head = previous
-    }
-    
-    //connect with the next part
-    lastNodeOfSubList.next = current
- 
-  
-    //skip k nodes
-    i = 0
-    while (current !== null && i < k){
-      previous = current
-      current = current.next
-      i++
-     }
-  } 
-  return head
+ if(head === null || k <= 1) return head
+
+ let current = head
+ let previous = null
+
+ while (current !== null) {
+ //break if we've reached the end of the list
+ const lastNodeOfPreviousPart = previous
+
+ //after reversing the LinkedList current will become the last node of the sub-list
+ const lastNodeOfSubList = current
+
+ //will be used to temporarily store the next node
+ let next = null
+
+ //reverse k nodes
+ let i = 0
+ while(current !== null && i < k) {
+ next = current.next
+ current.next = previous
+ previous = current
+ current = next
+ i++
+ }
+
+ //connect with the previous part
+ if(lastNodeOfPreviousPart !== null) {
+ lastNodeOfPreviousPart.next = previous
+ } else {
+ head = previous
+ }
+
+ //connect with the next part
+ lastNodeOfSubList.next = current
+
+
+ //skip k nodes
+ i = 0
+ while (current !== null && i < k){
+ previous = current
+ current = current.next
+ i++
+ }
+ } 
+ return head
 };
 
 
@@ -354,14 +354,14 @@ head.next.next.next.next.next.next.next = new Node(8);
 
 process.stdout.write('Nodes of original LinkedList are: ');
 head.printList();
-result =  reverseAlternateKElements(head, 2);
+result = reverseAlternateKElements(head, 2);
 process.stdout.write('Nodes of reversed LinkedList are: ');
 result.printList();
 ````
 
-- The time complexity of our algorithm will be `O(N)`where  `N’` is the total number of nodes in the <b>LinkedList</b>.
+- The time complexity of our algorithm will be `O(N)`where `N’` is the total number of nodes in the <b>LinkedList</b>.
 - We only used constant space, therefore, the space complexity of our algorithm is `O(1)`.
-## 🌟 Rotate a LinkedList (medium)
+## Rotate a LinkedList (medium)
 https://leetcode.com/problems/rotate-list/
 
 > Given the head of a Singly <b>LinkedList</b> and a number `K`, rotate the <b>LinkedList</b> to the right by `K` nodes.
@@ -374,52 +374,52 @@ Another way of defining the rotation is to take the sub-list of `K` ending nodes
 
 ````js
 class Node {
-  constructor(value, next=null){
-    this.value = value;
-    this.next = next;
-  }
+ constructor(value, next=null){
+ this.value = value;
+ this.next = next;
+ }
 
-  getList() {
-    let result = "";
-    let temp = this;
-    while (temp !== null) {
-      result += temp.value + " ";
-      temp = temp.next;
-    }
-    return result;
-  }
+ getList() {
+ let result = "";
+ let temp = this;
+ while (temp !== null) {
+ result += temp.value + " ";
+ temp = temp.next;
+ }
+ return result;
+ }
 };
 
 
 function rotate(head, rotations) {
-  if(head === null || head.next === null || rotations <= 0) return head
-  
-  //find the length and the last node of the list
-  let lastNode = head
-  let listLength = 1
-  
-  while(lastNode.next !== null) {
-    lastNode = lastNode.next
-    listLength++
-  }
-  
-  //connect the last node with the head to make it a circular list
-  lastNode.next = head
-  
-  //no need to do rotations more than the length of the list
-  rotations %= listLength
-  let skipLength = listLength - rotations
-  let lastNodeOfRotatedList = head
-  
-  for(let i = 0; i < skipLength - 1; i++) {
-    lastNodeOfRotatedList = lastNodeOfRotatedList.next
-  }
-  
-  //lastNodeOfRotatedList.next is pointing to the sub-list of k ending nodes
-  head = lastNodeOfRotatedList.next
-  lastNodeOfRotatedList.next = null
-  
-  return head
+ if(head === null || head.next === null || rotations <= 0) return head
+
+ //find the length and the last node of the list
+ let lastNode = head
+ let listLength = 1
+
+ while(lastNode.next !== null) {
+ lastNode = lastNode.next
+ listLength++
+ }
+
+ //connect the last node with the head to make it a circular list
+ lastNode.next = head
+
+ //no need to do rotations more than the length of the list
+ rotations %= listLength
+ let skipLength = listLength - rotations
+ let lastNodeOfRotatedList = head
+
+ for(let i = 0; i < skipLength - 1; i++) {
+ lastNodeOfRotatedList = lastNodeOfRotatedList.next
+ }
+
+ //lastNodeOfRotatedList.next is pointing to the sub-list of k ending nodes
+ head = lastNodeOfRotatedList.next
+ lastNodeOfRotatedList.next = null
+
+ return head
 };
 
 

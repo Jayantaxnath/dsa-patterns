@@ -30,16 +30,16 @@ Let’s take the Example-1 mentioned above to go through each step of our algori
 
 Now, we have two elements in the <b>Max Heap</b> and no elements in <b>Min Heap</b>. Let’s take the largest element from the Max Heap and insert it into the <b>Min Heap</b>, to balance the number of elements in both heaps.
 
-3. `findMedian()`: As we have an even number of elements, the median will be the average of the top element of both the heaps ➡️ `(1+3)/2 = 2.0(1+3)/2=2.0`
+3. `findMedian()`: As we have an even number of elements, the median will be the average of the top element of both the heaps `(1+3)/2 = 2.0(1+3)/2=2.0`
 4. `insertNum(5)`: As ‘5’ is greater than the top element of the <b>Max Heap</b>, we can insert it into the <b>Min Heap</b>. After the insertion, the total count of elements will be odd. As we had decided to have more numbers in the <b>Max Heap</b> than the <b>Min Heap</b>, we can take the top (smallest) number from the <b>Min Heap</b> and insert it into the <b>Max Heap</b>.
-5. `findMedian()`: Since we have an odd number of elements, the median will be the top element of <b>Max Heap</b> ➡️ `3`. An odd number of elements also means that the <b>Max Heap</b> will have one extra element than the <b>Min Heap</b>.
+5. `findMedian()`: Since we have an odd number of elements, the median will be the top element of <b>Max Heap</b> `3`. An odd number of elements also means that the <b>Max Heap</b> will have one extra element than the <b>Min Heap</b>.
 6. `insertNum(4)`: Insert ‘4’ into <b>Min Heap</b>.
-7. `findMedian()`: As we have an even number of elements, the median will be the average of the top element of both the heaps ➡️ `(3+4)/2 = 3.5(3+4)/2=3.5`
+7. `findMedian()`: As we have an even number of elements, the median will be the average of the top element of both the heaps `(3+4)/2 = 3.5(3+4)/2=3.5`
 
 ### JavaScript Custom Heap Class
 ````
 /** 
- *  custom Heap class
+ * custom Heap class
  */
 
 class Heap {
@@ -111,52 +111,52 @@ class Heap {
 }
 
 /** 
- *  Min Comparator
+ * Min Comparator
  */
 Heap.minComparator = (a, b) => { return a - b; }
 
 /** 
- *  Max Comparator
+ * Max Comparator
  */
 Heap.maxComparator = (a, b) => { return b - a; }
 ````
 ### Solution 
 ````js
 class MedianOfAStream {
-  constructor(){
-     this.maxHeap = new Heap(Heap.maxComparator);
-     this.minHeap = new Heap(Heap.minComparator);
-  }
-  
-  insertNum(num) {
-   if(this.maxHeap.size === 0 || this.maxHeap.peek() >= num){
-     this.maxHeap.add(num)
-   } else {
-     this.minHeap.add(num)
-   }
-    
-    //either both the heaps will have = numnber of elements
-    //or maxHeap will have one or more elements than minHeap
-    if(this.maxHeap.size > this.minHeap.size + 1){
-      this.minHeap.add(this.maxHeap.poll())
-    } else if(this.maxHeap.size < this.minHeap.size) {
-      this.maxHeap.add(this.minHeap.poll())
-    }
-  }
+ constructor(){
+ this.maxHeap = new Heap(Heap.maxComparator);
+ this.minHeap = new Heap(Heap.minComparator);
+ }
 
-  findMedian() {
-    if(this.maxHeap.size > this.minHeap.size){
-      //because maxHeap will have one more element 
-      //than the minHeap
-      return this.maxHeap.peek()
-    } else if(this.maxHeap.size < this.minHeap.size){
-      return this.minHeap.peek()
-    } else {
-      //we have an even number of elements
-      //so take the average of the middle two elements
-      return (this.maxHeap.peek() + this.minHeap.peek()) / 2.0
-    } 
-  }
+ insertNum(num) {
+ if(this.maxHeap.size === 0 || this.maxHeap.peek() >= num){
+ this.maxHeap.add(num)
+ } else {
+ this.minHeap.add(num)
+ }
+
+ //either both the heaps will have = numnber of elements
+ //or maxHeap will have one or more elements than minHeap
+ if(this.maxHeap.size > this.minHeap.size + 1){
+ this.minHeap.add(this.maxHeap.poll())
+ } else if(this.maxHeap.size < this.minHeap.size) {
+ this.maxHeap.add(this.minHeap.poll())
+ }
+ }
+
+ findMedian() {
+ if(this.maxHeap.size > this.minHeap.size){
+ //because maxHeap will have one more element 
+ //than the minHeap
+ return this.maxHeap.peek()
+ } else if(this.maxHeap.size < this.minHeap.size){
+ return this.minHeap.peek()
+ } else {
+ //we have an even number of elements
+ //so take the average of the middle two elements
+ return (this.maxHeap.peek() + this.minHeap.peek()) / 2.0
+ } 
+ }
 };
 
 
@@ -172,7 +172,7 @@ console.log(`The median is: ${medianOfAStream.findMedian()}`)//3.5
 - The time complexity of the `insertNum()` will be `O(logN)` due to the insertion in the heap. The time complexity of the `findMedian()` will be `O(1)` as we can find the median from the top elements of the heaps.
 - The space complexity will be `O(N)` because, as at any time, we will be storing all the numbers.
 
-## 😕 Sliding Window Median (hard)
+## Sliding Window Median (hard)
 https://leetcode.com/problems/sliding-window-median/
 
 > Given an array of numbers and a number ‘k’, find the median of all the ‘k’ sized sub-arrays (or windows) of the array.
@@ -207,7 +207,7 @@ The only difference is that we need to keep track of a sliding window of ‘k’
 ### JavaScript Custom Heap Class
 ````
 /** 
- *  custom Heap class
+ * custom Heap class
  */
 
 class Heap {
@@ -276,107 +276,107 @@ class Heap {
 			index = swap;
 		}
 	}
-  remove(value) {
-    let idx;
-    for (let i of this.index[value]) {
-      idx = i;
-      break;
-    }
-    this.index[value].delete(idx);
-    if (idx === this.values.length - 1) return this.value.pop();
-    this.values[idx] = this.value.pop()
-    this.idxs[this.values[idx]].delete(this.value.length);
-    this.idxs[this.store[idx]].add(idx);
-    this.heapifyDown(this.heapifyUp(idx));
-  }
+ remove(value) {
+ let idx;
+ for (let i of this.index[value]) {
+ idx = i;
+ break;
+ }
+ this.index[value].delete(idx);
+ if (idx === this.values.length - 1) return this.value.pop();
+ this.values[idx] = this.value.pop()
+ this.idxs[this.values[idx]].delete(this.value.length);
+ this.idxs[this.store[idx]].add(idx);
+ this.heapifyDown(this.heapifyUp(idx));
+ }
 }
 
 /** 
- *  Min Comparator
+ * Min Comparator
  */
 Heap.minComparator = (a, b) => { return a - b; }
 
 /** 
- *  Max Comparator
+ * Max Comparator
  */
 Heap.maxComparator = (a, b) => { return b - a; }
 ````
-### Solution 😕(review)
+### Solution (review)
 ````
 
 class SlidingWindowMedian {
-  constructor(){
-    this.maxHeap = new Heap(Heap.maxComparator)
-    this.minHeap = new Heap(Heap.minComparator)
-  }
-  
-    balance() {
-    // either both the heaps will have equal number of elements or max-heap will have
-    // one more element than the min-heap
-    if (this.maxHeap.size > this.minHeap.size + 1) {
-      this.minHeap.add(this.maxHeap.values.pop());
-    } else if (this.maxHeap.size < this.minHeap.size) {
-      this.maxHeap.add(this.minHeap.values.pop());
-    }
-  }
+ constructor(){
+ this.maxHeap = new Heap(Heap.maxComparator)
+ this.minHeap = new Heap(Heap.minComparator)
+ }
 
-  findSlidingWindowMedian(nums, k) {
-    const result = new Array(nums.length - k + 1).fill(0.0);
-    console.log(result)
-    
-    let n = nums.length
-    console.log(n)
-    
-    for(let i = 0; i < n; i++){
-      console.log(nums[i])
-      if(this.maxHeap.size === 0 || nums[i] <= this.maxHeap.peek()){
-        this.maxHeap.add(nums[i])
-        console.log(this.maxHeap.peek())
-      } else {
-        this.minHeap.add(nums[i])
-        console.log(this.minHeap.peek())
-      }
-      
-      this.balance()
-      
-      if(i - k + 1 >= 0){
-         //if we have at least k elements in the sliding window
-        //then add the median to the result array
-        if(this.maxHeap.size() === this.minHeap.size()){
-          //we have an enven number of elements
-          //take the average of middle two elements
-          result[i - k + 1] = (this.maxHeap.peek() + this.min.Heap.peek())/2
-        } else {
-          //because maxHeap will have one more element than the minHeap
-          result[i - k + 1] = this.maxHeap.peek()
-        }
-        
-        //remove the element going out of the sliding window
-        const elementToBeRemoved = nums[i - k + 1]
-        if(elementToBeRemoved <= this.maxHeap.peek()){
-          //delete from heap
-          this.maxHeap.remove(elementToBeRemoved)
-        } else {
-          //delete from heap
-          this.minHeap.remove(elementToBeRemoved)
-        }
-        this.balance()
-     }
-    }
-   return result
-  }
+ balance() {
+ // either both the heaps will have equal number of elements or max-heap will have
+ // one more element than the min-heap
+ if (this.maxHeap.size > this.minHeap.size + 1) {
+ this.minHeap.add(this.maxHeap.values.pop());
+ } else if (this.maxHeap.size < this.minHeap.size) {
+ this.maxHeap.add(this.minHeap.values.pop());
+ }
+ }
+
+ findSlidingWindowMedian(nums, k) {
+ const result = new Array(nums.length - k + 1).fill(0.0);
+ console.log(result)
+
+ let n = nums.length
+ console.log(n)
+
+ for(let i = 0; i < n; i++){
+ console.log(nums[i])
+ if(this.maxHeap.size === 0 || nums[i] <= this.maxHeap.peek()){
+ this.maxHeap.add(nums[i])
+ console.log(this.maxHeap.peek())
+ } else {
+ this.minHeap.add(nums[i])
+ console.log(this.minHeap.peek())
+ }
+
+ this.balance()
+
+ if(i - k + 1 >= 0){
+ //if we have at least k elements in the sliding window
+ //then add the median to the result array
+ if(this.maxHeap.size() === this.minHeap.size()){
+ //we have an enven number of elements
+ //take the average of middle two elements
+ result[i - k + 1] = (this.maxHeap.peek() + this.min.Heap.peek())/2
+ } else {
+ //because maxHeap will have one more element than the minHeap
+ result[i - k + 1] = this.maxHeap.peek()
+ }
+
+ //remove the element going out of the sliding window
+ const elementToBeRemoved = nums[i - k + 1]
+ if(elementToBeRemoved <= this.maxHeap.peek()){
+ //delete from heap
+ this.maxHeap.remove(elementToBeRemoved)
+ } else {
+ //delete from heap
+ this.minHeap.remove(elementToBeRemoved)
+ }
+ this.balance()
+ }
+ }
+ return result
+ }
 };
 
 
 
 const slidingWindowMedian = new SlidingWindowMedian()
 let result = slidingWindowMedian.findSlidingWindowMedian(
-  [1, 2, -1, 3, 5], 2)
+ [1, 2, -1, 3, 5], 2)
 console.log(`Sliding window medians are: ${result}`)//[1.5, 0.5, 1.0, 4.0]
 
 slidingWindowMedian = new SlidingWindowMedian()
 result = slidingWindowMedian.findSlidingWindowMedian(
-  [1, 2, -1, 3, 5], 3)
+ [1, 2, -1, 3, 5], 3)
 console.log(`Sliding window medians are: ${result}`)//[1.0, 2.0, 3.0]
 ````
 
@@ -385,7 +385,7 @@ console.log(`Sliding window medians are: ${result}`)//[1.0, 2.0, 3.0]
 	2. Removing the element going out of the sliding window. This will take `O(K)` as we will be searching this element in an array of size `K` (i.e., a heap).
 - Ignoring the space needed for the output array, the space complexity will be `O(K)` because, at any time, we will be storing all the numbers within the sliding window.
 
-## 😕 Maximize Capital (hard)
+## Maximize Capital (hard)
 https://leetcode.com/problems/ipo/
 
 > Given a set of investment projects with their respective profits, we need to find the most profitable projects. We are given an initial `capital` and are allowed to invest only in a fixed number of projects. Our goal is to choose projects that give us the maximum profit. Write a function that returns the maximum total capital after selecting the most profitable projects.
@@ -419,17 +419,17 @@ https://leetcode.com/problems/ipo/
 > 
 > Output
 > 
->  `8`
->  
->  Explanation
->  
->  With ‘0’ capital, we can only select the first project, bringing out capital to 1.
->  
->  Next, we will select the second project, which will bring our capital to 3.
->  
->  Next, we will select the fourth project, giving us a profit of 5.
->  
->  After selecting the three projects, our total capital will be 8 (1+2+5).
+> `8`
+> 
+> Explanation
+> 
+> With ‘0’ capital, we can only select the first project, bringing out capital to 1.
+> 
+> Next, we will select the second project, which will bring our capital to 3.
+> 
+> Next, we will select the fourth project, giving us a profit of 5.
+> 
+> After selecting the three projects, our total capital will be 8 (1+2+5).
 
 While selecting projects we have two constraints:
 
@@ -447,7 +447,7 @@ We can follow the Two Heaps approach similar to Find the Median of a Number Stre
 4. Repeat the 2nd and 3rd steps for the required number of projects.
 ````
 /** 
- *  custom Heap class
+ * custom Heap class
  */
 
 class Heap {
@@ -516,60 +516,60 @@ class Heap {
 			index = swap;
 		}
 	}
-   remove(value) {
-    let idx;
-    for (let i of this.index[value]) {
-      idx = i;
-      break;
-    }
-    this.index[value].delete(idx);
-    if (idx === this.values.length - 1) return this.value.pop();
-    this.values[idx] = this.value.pop()
-    this.idxs[this.values[idx]].delete(this.value.length);
-    this.idxs[this.store[idx]].add(idx);
-    this.heapifyDown(this.heapifyUp(idx));
-  }
+ remove(value) {
+ let idx;
+ for (let i of this.index[value]) {
+ idx = i;
+ break;
+ }
+ this.index[value].delete(idx);
+ if (idx === this.values.length - 1) return this.value.pop();
+ this.values[idx] = this.value.pop()
+ this.idxs[this.values[idx]].delete(this.value.length);
+ this.idxs[this.store[idx]].add(idx);
+ this.heapifyDown(this.heapifyUp(idx));
+ }
 }
 
 /** 
- *  Min Comparator
+ * Min Comparator
  */
 Heap.minComparator = (a, b) => { return a - b; }
 
 /** 
- *  Max Comparator
+ * Max Comparator
  */
 Heap.maxComparator = (a, b) => { return b - a; }
 ````
 ````js
 function findMaximumCapital(capital, profits, numberOfProjects, initialCapital) {
-  const minCapitalHeap = new Heap(Heap.minComparator);
-  const maxProfitHeap = new Heap(Heap.maxComparator);
+ const minCapitalHeap = new Heap(Heap.minComparator);
+ const maxProfitHeap = new Heap(Heap.maxComparator);
 
-  // insert all project capitals to a min-heap
-  for (i = 0; i < profits.length; i++) {
-    minCapitalHeap.add([capital[i], i]);
-  }
+ // insert all project capitals to a min-heap
+ for (i = 0; i < profits.length; i++) {
+ minCapitalHeap.add([capital[i], i]);
+ }
 
-  // let's try to find a total of 'numberOfProjects' best projects
-  let availableCapital = initialCapital;
-  for (i = 0; i < numberOfProjects; i++) {
-    // find all projects that can be selected within the available capital and insert them in a max-heap
-    while (minCapitalHeap.size > 0 && minCapitalHeap.peek()[0] <= availableCapital) {
-      const [capital, index] = minCapitalHeap.values.pop();
-      maxProfitHeap.add([profits[index], index]);
-    }
+ // let's try to find a total of 'numberOfProjects' best projects
+ let availableCapital = initialCapital;
+ for (i = 0; i < numberOfProjects; i++) {
+ // find all projects that can be selected within the available capital and insert them in a max-heap
+ while (minCapitalHeap.size > 0 && minCapitalHeap.peek()[0] <= availableCapital) {
+ const [capital, index] = minCapitalHeap.values.pop();
+ maxProfitHeap.add([profits[index], index]);
+ }
 
-    // terminate if we are not able to find any project that can be completed within the available capital
-    if (maxProfitHeap.size === 0) {
-      break;
-    }
+ // terminate if we are not able to find any project that can be completed within the available capital
+ if (maxProfitHeap.size === 0) {
+ break;
+ }
 
-    // select the project with the maximum profit
-    availableCapital += maxProfitHeap.pop()[0];
-  }
+ // select the project with the maximum profit
+ availableCapital += maxProfitHeap.pop()[0];
+ }
 
-  return availableCapital;
+ return availableCapital;
 }
 
 
@@ -579,7 +579,7 @@ console.log(`Maximum capital: ${findMaximumCapital([0, 1, 2, 3], [1, 2, 3, 5], 3
 
 - Since, at the most, all the projects will be pushed to both the heaps once, the time complexity of our algorithm is `O(NlogN + KlogN)`, where `N` is the total number of projects and `K` is the number of projects we are selecting.
 - The space complexity will be `O(N)` because we will be storing all the projects in the heaps.
-## 🌟 😴 Next Interval (hard)
+## Next Interval (hard)
 https://leetcode.com/problems/find-right-interval/
 
 > Given an array of intervals, find the next interval of each interval. In a list of intervals, for an interval ‘i’ its next interval ‘j’ will have the smallest ‘start’ greater than or equal to the ‘end’ of ‘i’.
@@ -607,46 +607,46 @@ Find an interval in the maxStartHeap with the closest start greater than or equa
 Add the index of topStart in the result array as the next interval of topEnd. If we can’t find the next interval, add ‘-1’ in the result array.
 Put the topStart back in the maxStartHeap, as it could be the next interval of other intervals.
 Repeat steps 1-4 until we have no intervals left in maxEndHeap.
-😴(needs review)
+(needs review)
 ````js
 class Interval {
-  constructor(start, end) {
-    this.start = start;
-    this.end = end;
-  }
+ constructor(start, end) {
+ this.start = start;
+ this.end = end;
+ }
 }
 
 
 function find_next_interval(intervals) {
-  const n = intervals.length;
+ const n = intervals.length;
 
-  // heaps for finding the maximum start and end
-  const maxStartHeap = new Heap([], null, ((a, b) => a[0] - b[0]));
-  const maxEndHeap = new Heap([], null, ((a, b) => a[0] - b[0]));
+ // heaps for finding the maximum start and end
+ const maxStartHeap = new Heap([], null, ((a, b) => a[0] - b[0]));
+ const maxEndHeap = new Heap([], null, ((a, b) => a[0] - b[0]));
 
-  const result = Array(n).fill(0);
-  for (endIndex = 0; endIndex < n; endIndex++) {
-    maxStartHeap.push([intervals[endIndex].start, endIndex]);
-    maxEndHeap.push([intervals[endIndex].end, endIndex]);
-  }
+ const result = Array(n).fill(0);
+ for (endIndex = 0; endIndex < n; endIndex++) {
+ maxStartHeap.push([intervals[endIndex].start, endIndex]);
+ maxEndHeap.push([intervals[endIndex].end, endIndex]);
+ }
 
-  // go through all the intervals to find each interval's next interval
-  for (i = 0; i < n; i++) {
-    // let's find the next interval of the interval which has the highest 'end'
-    const [topEnd, endIndex] = maxEndHeap.pop();
-    result[endIndex] = -1; // defaults to -1
-    if (maxStartHeap.peek()[0] >= topEnd) {
-      let [topStart, startIndex] = maxStartHeap.pop();
-      // find the the interval that has the closest 'start'
-      while (maxStartHeap.length > 0 && maxStartHeap.peek()[0] >= topEnd) {
-        [topStart, startIndex] = maxStartHeap.pop();
-      }
-      result[endIndex] = startIndex;
-      // put the interval back as it could be the next interval of other intervals
-      maxStartHeap.push([topStart, startIndex]);
-    }
-  }
-  return result;
+ // go through all the intervals to find each interval's next interval
+ for (i = 0; i < n; i++) {
+ // let's find the next interval of the interval which has the highest 'end'
+ const [topEnd, endIndex] = maxEndHeap.pop();
+ result[endIndex] = -1; // defaults to -1
+ if (maxStartHeap.peek()[0] >= topEnd) {
+ let [topStart, startIndex] = maxStartHeap.pop();
+ // find the the interval that has the closest 'start'
+ while (maxStartHeap.length > 0 && maxStartHeap.peek()[0] >= topEnd) {
+ [topStart, startIndex] = maxStartHeap.pop();
+ }
+ result[endIndex] = startIndex;
+ // put the interval back as it could be the next interval of other intervals
+ maxStartHeap.push([topStart, startIndex]);
+ }
+ }
+ return result;
 }
 
 

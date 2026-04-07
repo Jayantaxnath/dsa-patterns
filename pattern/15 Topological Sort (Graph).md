@@ -1,4 +1,4 @@
-# 🔎 Pattern 16: Topological Sort (Graph)
+# Pattern 16: Topological Sort (Graph)
 
 <b>Topological Sort</b> is used to find a linear ordering of elements that have dependencies on each other. For example, if event `B` is dependent on event `A`, `A` comes before `B` in topological ordering.
 
@@ -43,7 +43,7 @@ Output: Following are all valid topological sorts for the given graph:
 
 There are other valid topological ordering of the graph too.
 ````
-![](./images/topsort3.png)  
+![](./images/topsort3.png) 
 
 The basic idea behind the topological sort is to provide a partial ordering among the vertices of the graph such that if there is an edge from `U` to `V` then `U≤V` i.e., `U` comes before `V` in the ordering. 
 
@@ -65,10 +65,10 @@ To find the <i>topological sort</i> of a graph we can traverse the graph in a <b
 - All vertices with `0` in-degrees will be our sources and we will store them in a <b>Queue</b>.
 #### 4. Sort
 - For each source, do the following things:
-  - Add it to the sorted list.
-  - Get all of its children from the graph.
-  - Decrement the in-degree of each child by `1`.
-  - If a child’s in-degree becomes `0`, add it to the sources <b>Queue</b>.
+ - Add it to the sorted list.
+ - Get all of its children from the graph.
+ - Decrement the in-degree of each child by `1`.
+ - If a child’s in-degree becomes `0`, add it to the sources <b>Queue</b>.
 - Repeat for each source, until the source <b>Queue</b> is empty.
 
 Here is the visual representation of this algorithm for <b>Example 3</b>:
@@ -77,57 +77,57 @@ Here is the visual representation of this algorithm for <b>Example 3</b>:
 This is how we can implement this algorithm:
 ````js
 function topologicalSort(vertices, edges) {
-  const sortedOrder = [];
+ const sortedOrder = [];
 
-  if (vertices <= 0) {
-    return sortedOrder;
-  }
+ if (vertices <= 0) {
+ return sortedOrder;
+ }
 
-  //1. Initialize the graph
-  //count incoming edges
-  const inDegree = Array(vertices).fill(0);
-  //adjacency list graph
-  const graph = Array(vertices)
-    .fill(0)
-    .map(() => Array());
+ //1. Initialize the graph
+ //count incoming edges
+ const inDegree = Array(vertices).fill(0);
+ //adjacency list graph
+ const graph = Array(vertices)
+ .fill(0)
+ .map(() => Array());
 
-  //2. Build the graph
-  edges.forEach((edge) => {
-    let parent = edge[0];
-    let child = edge[1];
-    //put the child into it's parent's list
-    graph[parent].push(child);
-    //increment child's inDegree
-    inDegree[child]++;
-  });
-  
-  //3. Find all sources/vertices with 0 inDegrees
-  const sources = [];
-  for (let i = 0; i < inDegree.length; i++) {
-    if (inDegree[i] === 0) sources.push(i);
-  }
+ //2. Build the graph
+ edges.forEach((edge) => {
+ let parent = edge[0];
+ let child = edge[1];
+ //put the child into it's parent's list
+ graph[parent].push(child);
+ //increment child's inDegree
+ inDegree[child]++;
+ });
 
-  //4. For each sorce, add it to sortedOrder and decrement it children inDegree
-  //if a child become 0, add to source queue
-  while (sources.length > 0) {
-    const vertex = sources.shift();
-    sortedOrder.push(vertex);
-    graph[vertex].forEach((child) => {
-      //get the nodes children to dcrement thier inDegree
-      inDegree[child]--;
-      if (inDegree[child] === 0) {
-        sources.push(child);
-      }
-    });
-    // console.log(vertex)
-  }
+ //3. Find all sources/vertices with 0 inDegrees
+ const sources = [];
+ for (let i = 0; i < inDegree.length; i++) {
+ if (inDegree[i] === 0) sources.push(i);
+ }
 
-  // topological sort is not possible as the graph has a cycle
-  if (sortedOrder.length !== vertices) {
-    return [];
-  }
-  // console.log(inDegree, graph, sources)
-  return sortedOrder;
+ //4. For each sorce, add it to sortedOrder and decrement it children inDegree
+ //if a child become 0, add to source queue
+ while (sources.length > 0) {
+ const vertex = sources.shift();
+ sortedOrder.push(vertex);
+ graph[vertex].forEach((child) => {
+ //get the nodes children to dcrement thier inDegree
+ inDegree[child]--;
+ if (inDegree[child] === 0) {
+ sources.push(child);
+ }
+ });
+ // console.log(vertex)
+ }
+
+ // topological sort is not possible as the graph has a cycle
+ if (sortedOrder.length !== vertices) {
+ return [];
+ }
+ // console.log(inDegree, graph, sources)
+ return sortedOrder;
 }
 
 console.log(`Topological sort: ${topologicalSort(4, [[3, 2], [3, 0], [2, 0], [2, 1]])}`)
@@ -161,10 +161,10 @@ console.log(`Topological sort: ${topologicalSort(7, [[6, 4],[6, 2],[5, 3],[5, 4]
 <b>Solution:</b> If we can’t determine the topological ordering of all the vertices of a directed graph, the graph has a cycle in it. This was also referred to in the above code:
 ````js
 if (sortedOrder.size() != vertices) // topological sort is not possible as the graph has a cycle
-      return new ArrayList<>();
+ return new ArrayList<>();
 ````
 
-## 👩🏽‍🦯 Tasks Scheduling (medium)
+## ‍ Tasks Scheduling (medium)
 https://leetcode.com/problems/course-schedule/
 
 > There are `N` `tasks`, labeled from `0` to `N-1`. Each task can have some `prerequisite` tasks which need to be completed before it can be scheduled. Given the number of `tasks` and a list of `prerequisite` pairs, find out if it is possible to schedule all the `tasks`.
@@ -175,52 +175,52 @@ We can use a similar algorithm as described in <b>[Topological Sort](#topologica
 
 ````js
 function isSchedulingPossible(tasks, prerequisites) {
-  const schedule = []
-  
-  if(tasks <= 0) {
-    return false
-  }
-  
-  //1. initialize the graph
-  //count incoming edges
-  const steps = Array(tasks).fill(0)
-  //adjacency list graph
-  const graph = Array(tasks).fill(0).map(()=>Array())
-  
-  //2. Build the graph
-  prerequisites.forEach((prereq) =>{
-    let parent = prereq[0]
-    let child = prereq[1]
-    //put the child into it's parents list
-    graph[parent].push(child)
-    //increment childs step
-    steps[child]++
-  })
-  
-  //3. Find all sources with 0 steps
-  const sources = []
-  for(let i = 0; i < steps.length; i++){
-    if(steps[i] === 0) sources.push(i)
-  }
-  
-  //4. For each source, add it to schecule and decrement it's children steps
-  //if a child becomes 0, add to source queue
-  while(sources.length > 0){
-    const vertex = sources.shift()
-    schedule.push(vertex)
-    graph[vertex].forEach((child) =>{
-      //get the nodes children to decrement thier steps
-      steps[child]--
-      if(steps[child] === 0) sources.push(child)
-    })
-  }
-  
-   console.log(steps,"steps", graph, "graph", schedule, "schedule")
-   
-   // if schedule doesn't contain all tasks, 
-   // there is a cyclic dependency between tasks, 
-   // therefore, we will not be able to schedule all tasks
-   return schedule.length === tasks
+ const schedule = []
+
+ if(tasks <= 0) {
+ return false
+ }
+
+ //1. initialize the graph
+ //count incoming edges
+ const steps = Array(tasks).fill(0)
+ //adjacency list graph
+ const graph = Array(tasks).fill(0).map(()=>Array())
+
+ //2. Build the graph
+ prerequisites.forEach((prereq) =>{
+ let parent = prereq[0]
+ let child = prereq[1]
+ //put the child into it's parents list
+ graph[parent].push(child)
+ //increment childs step
+ steps[child]++
+ })
+
+ //3. Find all sources with 0 steps
+ const sources = []
+ for(let i = 0; i < steps.length; i++){
+ if(steps[i] === 0) sources.push(i)
+ }
+
+ //4. For each source, add it to schecule and decrement it's children steps
+ //if a child becomes 0, add to source queue
+ while(sources.length > 0){
+ const vertex = sources.shift()
+ schedule.push(vertex)
+ graph[vertex].forEach((child) =>{
+ //get the nodes children to decrement thier steps
+ steps[child]--
+ if(steps[child] === 0) sources.push(child)
+ })
+ }
+
+ console.log(steps,"steps", graph, "graph", schedule, "schedule")
+
+ // if schedule doesn't contain all tasks, 
+ // there is a cyclic dependency between tasks, 
+ // therefore, we will not be able to schedule all tasks
+ return schedule.length === tasks
 };
 
 
@@ -245,61 +245,61 @@ console.log(`Is scheduling possible: ${isSchedulingPossible(6, [[0, 4], [1, 4], 
 
 <b>Solution:</b> This problem is exactly similar to our parent problem. In this problem, we have courses instead of tasks.
 
-## 🔎 Tasks Scheduling Order (medium)
+## Tasks Scheduling Order (medium)
 https://leetcode.com/problems/course-schedule-ii/
 > There are `N` tasks, labeled from `0` to `N-1`. Each task can have some prerequisite tasks which need to be completed before it can be scheduled. Given the number of tasks and a list of prerequisite pairs, write a method to find the ordering of tasks we should pick to finish all tasks.
 
 This problem is similar to <b>[Tasks Scheduling](#-tasks-scheduling-medium)</b>, the only difference being that we need to find the best ordering of tasks so that it is possible to schedule them all.
 ````js
 function findOrder(tasks, prerequisites) {
-  const schedule = []
-  
-  if(tasks <= 0) {
-    return false
-  }
-  
-  //1. initialize the graph
-  //count incoming edges
-  const steps = Array(tasks).fill(0)
-  //adjacency list graph
-  const graph = Array(tasks).fill(0).map(()=>Array())
-  
-  //2. Build the graph
-  prerequisites.forEach((prereq) =>{
-    let parent = prereq[0]
-    let child = prereq[1]
-    //put the child into it's parents list
-    graph[parent].push(child)
-    //increment childs step
-    steps[child]++
-  })
-  
-  //3. Find all sources with 0 steps
-  const sources = []
-  for(let i = 0; i < steps.length; i++){
-    if(steps[i] === 0) sources.push(i)
-  }
-  
-  //4. For each source, add it to schecule and decrement it's children steps
-  //if a child becomes 0, add to source queue
-  while(sources.length > 0){
-    const vertex = sources.shift()
-    schedule.push(vertex)
-    graph[vertex].forEach((child) =>{
-      //get the nodes children to decrement thier steps
-      steps[child]--
-      if(steps[child] === 0) sources.push(child)
-    })
-  }
-  
-  // if schedule doesn't contain all tasks, 
-  // there is a cyclic dependency between tasks, 
-  // therefore, we will not be able to schedule all tasks
-  if(schedule.length !== tasks){
-    return []
-  }
-  
-  return schedule
+ const schedule = []
+
+ if(tasks <= 0) {
+ return false
+ }
+
+ //1. initialize the graph
+ //count incoming edges
+ const steps = Array(tasks).fill(0)
+ //adjacency list graph
+ const graph = Array(tasks).fill(0).map(()=>Array())
+
+ //2. Build the graph
+ prerequisites.forEach((prereq) =>{
+ let parent = prereq[0]
+ let child = prereq[1]
+ //put the child into it's parents list
+ graph[parent].push(child)
+ //increment childs step
+ steps[child]++
+ })
+
+ //3. Find all sources with 0 steps
+ const sources = []
+ for(let i = 0; i < steps.length; i++){
+ if(steps[i] === 0) sources.push(i)
+ }
+
+ //4. For each source, add it to schecule and decrement it's children steps
+ //if a child becomes 0, add to source queue
+ while(sources.length > 0){
+ const vertex = sources.shift()
+ schedule.push(vertex)
+ graph[vertex].forEach((child) =>{
+ //get the nodes children to decrement thier steps
+ steps[child]--
+ if(steps[child] === 0) sources.push(child)
+ })
+ }
+
+ // if schedule doesn't contain all tasks, 
+ // there is a cyclic dependency between tasks, 
+ // therefore, we will not be able to schedule all tasks
+ if(schedule.length !== tasks){
+ return []
+ }
+
+ return schedule
 };
 
 
@@ -333,78 +333,78 @@ This problem is similar to <b>[Tasks Scheduling Order](#-tasks-scheduling-order-
 At any stage, if we have more than one source available and since we can choose any source, therefore, in this case, we will have multiple orderings of the tasks. We can use a recursive approach with <b>Backtracking</b> to consider all sources at any step.
 ````js
 function printOrders(tasks, prerequisites) {
-  let possibleSchedules = [];
+ let possibleSchedules = [];
 
-  if (tasks.length <= 0) return possibleSchedules;
+ if (tasks.length <= 0) return possibleSchedules;
 
-  //1. Initialize graph
-  //count incoming edges
-  let steps = Array(tasks).fill(0);
-  //adjaceny list graph
-  const graph = Array(tasks)
-    .fill(0)
-    .map(() => Array());
+ //1. Initialize graph
+ //count incoming edges
+ let steps = Array(tasks).fill(0);
+ //adjaceny list graph
+ const graph = Array(tasks)
+ .fill(0)
+ .map(() => Array());
 
-  //2. Build Graph
-  prerequisites.forEach((prereq) => {
-    let parent = prereq[0];
-    let child = prereq[1];
+ //2. Build Graph
+ prerequisites.forEach((prereq) => {
+ let parent = prereq[0];
+ let child = prereq[1];
 
-    //put the child into it's parent list
-    graph[parent].push(child);
+ //put the child into it's parent list
+ graph[parent].push(child);
 
-    //increment child's steps
-    steps[child]++;
-  });
+ //increment child's steps
+ steps[child]++;
+ });
 
-  //3. Find sources with 0 steps
-  const sources = [];
-  for (let i = 0; i < steps.length; i++) {
-    if (steps[i] === 0) sources.push(i);
-  }
+ //3. Find sources with 0 steps
+ const sources = [];
+ for (let i = 0; i < steps.length; i++) {
+ if (steps[i] === 0) sources.push(i);
+ }
 
-  printAllTopologicalSorts(graph, steps, sources, possibleSchedules);
+ printAllTopologicalSorts(graph, steps, sources, possibleSchedules);
 }
 
 function printAllTopologicalSorts(graph, steps, sources, schedule) {
-  //4. For each source, add to schedule and decrement child steps
-  //if child === 0, add to source queue
-  if (sources.length > 0) {
-    for (let i = 0; i < sources.length; i++) {
-      const vertex = sources[i];
-      schedule.push(vertex);
+ //4. For each source, add to schedule and decrement child steps
+ //if child === 0, add to source queue
+ if (sources.length > 0) {
+ for (let i = 0; i < sources.length; i++) {
+ const vertex = sources[i];
+ schedule.push(vertex);
 
-      //clone current sources
-      const sourcesForNextCall = sources.slice(0);
+ //clone current sources
+ const sourcesForNextCall = sources.slice(0);
 
-      //only remove the current source
-      //all other sources will remain in queue for next call
-      sourcesForNextCall.splice(sourcesForNextCall.indexOf(vertex), 1);
+ //only remove the current source
+ //all other sources will remain in queue for next call
+ sourcesForNextCall.splice(sourcesForNextCall.indexOf(vertex), 1);
 
-      graph[vertex].forEach((child) => {
-        //get the nodes for the children to decrement thier steps
-        steps[child]--;
-        if (steps[child] === 0) sourcesForNextCall.push(child);
-      });
-      
-      //recursive call to print other ordering from the
-      //remaining and new sources
-      printAllTopologicalSorts(graph, steps, sourcesForNextCall, schedule);
+ graph[vertex].forEach((child) => {
+ //get the nodes for the children to decrement thier steps
+ steps[child]--;
+ if (steps[child] === 0) sourcesForNextCall.push(child);
+ });
 
-      //backtrack, remove the vertex from the schedule and put
-      //all of it's children back to consider the next source
-      //instead of the current vertex
-      schedule.splice(schedule.indexOf(vertex), 1);
-      for (let p = 0; p < graph[vertex].length; p++) {
-        steps[graph[vertex][p]]++;
-      }
-    }
-  }
+ //recursive call to print other ordering from the
+ //remaining and new sources
+ printAllTopologicalSorts(graph, steps, sourcesForNextCall, schedule);
 
-  // if schedule doesn't contain all tasks,
-  // there is a cyclic dependency between tasks,
-  // OR we have not processed all tasks in this recursive call
-  if (schedule.length === steps.length) console.log(schedule) ;
+ //backtrack, remove the vertex from the schedule and put
+ //all of it's children back to consider the next source
+ //instead of the current vertex
+ schedule.splice(schedule.indexOf(vertex), 1);
+ for (let p = 0; p < graph[vertex].length; p++) {
+ steps[graph[vertex][p]]++;
+ }
+ }
+ }
+
+ // if schedule doesn't contain all tasks,
+ // there is a cyclic dependency between tasks,
+ // OR we have not processed all tasks in this recursive call
+ if (schedule.length === steps.length) console.log(schedule) ;
 }
 
 printOrders(3, [[0, 1],[1, 2]])
@@ -432,7 +432,7 @@ printOrders(6, [[2, 5], [0, 5], [0, 4], [1, 4], [3, 2], [1, 3]])
 // 13) [1, 3, 2, 0, 4, 5]
 ````
 - If we don’t have any `prerequisites`, all combinations of the tasks can represent a <i>topological ordering</i>. As we know, that there can be `N` combinations for `N` numbers, therefore the <b>time and space complexity</b> of our algorithm will be `O(V! * E)` where `V` is the total number of `tasks` and `E` is the total `prerequisites`. We need the `E` part because in each recursive call, at max, we remove (and add back) all the edges.
-## 👩🏽‍🦯 Alien Dictionary (hard)
+## ‍ Alien Dictionary (hard)
 https://leetcode.com/problems/alien-dictionary/
 > There is a dictionary containing `words` from an alien language for which we don’t know the ordering of the alphabets. Write a method to find the correct order of the alphabets in the alien language. It is given that the input is a valid dictionary and there exists an ordering among its alphabets.
 
@@ -445,78 +445,78 @@ These two points tell us that we are actually asked to find the <b>topological o
 This makes the current problem similar to <b>[Tasks Scheduling Order](#-tasks-scheduling-order-medium)</b>, the only difference being that we need to build the graph of the characters by comparing adjacent words first, and then perform the <i>topological sort</i> for the graph to determine the order of the characters.
 ````js
 function findOrder(words) {
-  if(words.length === 0) return ''
-  
-  //1. Initilize the graph, with hashmaps
-  //count of incoming edges
-  const steps = {}
-  //adjency list graph
-  const graph = {}
-  
-  words.forEach((word) => {
-    for(let i = 0; i < word.length; i++){
-      steps[word[i]] = 0
-      graph[word[i]] = []
-    }
-  })
-  
-  // 2. Build the graph
-  for(let i = 0; i < words.length-1;i++){
-    //find ordering of characters from adjacent words
-    let w1 = words[i]
-    let w2 = words[i+1]
-    
-    for(let j = 0; j < Math.min(w1.length, w2.length); j++){
-      let parent = w1[j]
-      let child = w2[j]
-      
-      //if the parent and child are different
-      if(parent !== child){
-        //put the child into it's parents list
-        graph[parent].push(child)
-        //increment childs step
-        steps[child]++
-        //only the first differenent character between the two words
-        //will help us find the order
-        break;
-      }
-    }
-  }
-  
-  console.log(graph)
-  
-  // 3. Find all sources(vertices with 0 steps)
-  const sources = []
-  const chars = Object.keys(steps)
-  chars.forEach((key) => {
-    if(steps[key] === 0){
-      sources.push(key)
-    }
-  })
-  
-  console.log(steps)
-  
-  // 4. For each source, add it to sortedDictionary and subtract 1 from all of it's children's steps
-  //if a childs step becomes 0, add it to the source queue
-  const sortedDictionary = []
-  while(sources.length > 0) {
-    let vertex = sources.shift()
-    sortedDictionary.push(vertex)
-    graph[vertex].forEach((child) => {
-      //get the node's children to decrement thier steps
-      steps[child]--
-      if(steps[child] === 0){
-        sources.push(child)
-      }     
-    })
-  }
-  
-  //if sortedDictionary doesn't contain all chars
-  //then there is a cyclic dependency between chars,
-  //then we will not be able to find the correct ordering of the chars
-  if(sortedDictionary.length !== chars.length) return ''
-  
-  return sortedDictionary.join("");
+ if(words.length === 0) return ''
+
+ //1. Initilize the graph, with hashmaps
+ //count of incoming edges
+ const steps = {}
+ //adjency list graph
+ const graph = {}
+
+ words.forEach((word) => {
+ for(let i = 0; i < word.length; i++){
+ steps[word[i]] = 0
+ graph[word[i]] = []
+ }
+ })
+
+ // 2. Build the graph
+ for(let i = 0; i < words.length-1;i++){
+ //find ordering of characters from adjacent words
+ let w1 = words[i]
+ let w2 = words[i+1]
+
+ for(let j = 0; j < Math.min(w1.length, w2.length); j++){
+ let parent = w1[j]
+ let child = w2[j]
+
+ //if the parent and child are different
+ if(parent !== child){
+ //put the child into it's parents list
+ graph[parent].push(child)
+ //increment childs step
+ steps[child]++
+ //only the first differenent character between the two words
+ //will help us find the order
+ break;
+ }
+ }
+ }
+
+ console.log(graph)
+
+ // 3. Find all sources(vertices with 0 steps)
+ const sources = []
+ const chars = Object.keys(steps)
+ chars.forEach((key) => {
+ if(steps[key] === 0){
+ sources.push(key)
+ }
+ })
+
+ console.log(steps)
+
+ // 4. For each source, add it to sortedDictionary and subtract 1 from all of it's children's steps
+ //if a childs step becomes 0, add it to the source queue
+ const sortedDictionary = []
+ while(sources.length > 0) {
+ let vertex = sources.shift()
+ sortedDictionary.push(vertex)
+ graph[vertex].forEach((child) => {
+ //get the node's children to decrement thier steps
+ steps[child]--
+ if(steps[child] === 0){
+ sources.push(child)
+ } 
+ })
+ }
+
+ //if sortedDictionary doesn't contain all chars
+ //then there is a cyclic dependency between chars,
+ //then we will not be able to find the correct ordering of the chars
+ if(sortedDictionary.length !== chars.length) return ''
+
+ return sortedDictionary.join("");
 };
 
 console.log(`Character order: ${findOrder(["ba", "bc", "ac", "cab"])}`)
@@ -549,7 +549,7 @@ console.log(`Character order: ${findOrder(["ywx", "wz", "xww", "xz", "zyy", "zwz
 
 - In step <b>4</b>, each task can become a source only once and each edge (a rule) will be accessed and removed once. Therefore, the time complexity of the above algorithm will be `O(V+E)`, where `V` is the total number of different characters and `E` is the total number of the rules in the alien language. Since, at most, each pair of words can give us one rule, therefore, we can conclude that the upper bound for the rules is `O(N)`where `N` is the number of words in the input. So, we can say that the time complexity of our algorithm is `O(V+N)`.
 - The space complexity will be `O(V+N)`, since we are storing all of the rules for each character in an <i>adjacency list</i>.
-## 🌟 🔎 Reconstructing a Sequence (hard)
+## Reconstructing a Sequence (hard)
 https://leetcode.com/problems/sequence-reconstruction/
 > Given a sequence `originalSeq` and an array of `sequences`, write a method to find if `originalSeq` can be uniquely reconstructed from the array of `sequences`.
 > 
@@ -569,79 +569,79 @@ The above explanation tells us that we are actually asked to find the <i>topolog
 This makes the current problem similar to <b>[Tasks Scheduling Order](#-tasks-scheduling-order-medium)</b> with two differences:
 1. We need to build the graph of the numbers by comparing each pair of numbers in the given array of sequences.
 2. We must perform the <b>topological sort</b> for the graph to determine two things:
-  - Can the topological <b>ordering construct</b> the `originalSeq`?
-  - That there is only one <b>topological ordering</b> of the numbers possible. This can be confirmed if we do not have more than one <b>source</b> at any time while finding the <b>topological ordering</b> of numbers.
+ - Can the topological <b>ordering construct</b> the `originalSeq`?
+ - That there is only one <b>topological ordering</b> of the numbers possible. This can be confirmed if we do not have more than one <b>source</b> at any time while finding the <b>topological ordering</b> of numbers.
 
 ````js
 function canConstruct(originalSeq, sequences) {
-  let reconstructed = [];
-  if (originalSeq.length <= 0) return false;
+ let reconstructed = [];
+ if (originalSeq.length <= 0) return false;
 
-  // 1. Initialize the graph
-  //count of incoming edges
-  let steps = {};
-  //create adjacency list graph
-  let graph = {};
+ // 1. Initialize the graph
+ //count of incoming edges
+ let steps = {};
+ //create adjacency list graph
+ let graph = {};
 
-  sequences.forEach((seq) => {
-    for (let i = 0; i < seq.length; i++) {
-      steps[seq[i]] = 0;
-      graph[seq[i]] = [];
-    }
-  });
+ sequences.forEach((seq) => {
+ for (let i = 0; i < seq.length; i++) {
+ steps[seq[i]] = 0;
+ graph[seq[i]] = [];
+ }
+ });
 
-  // 2. Build the graph
-  sequences.forEach((seq) => {
-    for (let i = 1; i < seq.length; i++) {
-      const parent = seq[i - 1];
-      const child = seq[i];
-      graph[parent].push(child);
-      steps[child]++;
-    }
-  });
+ // 2. Build the graph
+ sequences.forEach((seq) => {
+ for (let i = 1; i < seq.length; i++) {
+ const parent = seq[i - 1];
+ const child = seq[i];
+ graph[parent].push(child);
+ steps[child]++;
+ }
+ });
 
-  //if we dont have ordering rules for all the numbers
-  //we will not be able to UNIQUELY construct the sequence
-  const vertices = Object.keys(steps);
+ //if we dont have ordering rules for all the numbers
+ //we will not be able to UNIQUELY construct the sequence
+ const vertices = Object.keys(steps);
 
-  if (vertices.length !== originalSeq.length) return false;
+ if (vertices.length !== originalSeq.length) return false;
 
-  // 3. Find all sources(all vertices with O steps)
-  const sources = [];
-  vertices.forEach((key) => {
-    if (steps[key] == 0) sources.push(key);
-  });
+ // 3. Find all sources(all vertices with O steps)
+ const sources = [];
+ vertices.forEach((key) => {
+ if (steps[key] == 0) sources.push(key);
+ });
 
-  // console.log(steps)
-  // console.log(graph)
+ // console.log(steps)
+ // console.log(graph)
 
-  // 4.For each source, add it to the reconstructed and
-  //subtract one for all it's childrens steps
-  //if a childs steps become 0, add it to the source queue
+ // 4.For each source, add it to the reconstructed and
+ //subtract one for all it's childrens steps
+ //if a childs steps become 0, add it to the source queue
 
-  while (sources.length > 0) {
-    if (sources.length > 1) {
-      //more than one source === more than
-      //one way to reconstruct the sequence
-      return false;
-    }
+ while (sources.length > 0) {
+ if (sources.length > 1) {
+ //more than one source === more than
+ //one way to reconstruct the sequence
+ return false;
+ }
 
-    if (originalSeq[reconstructed.length] !== +sources[0]) {
-      //the next source(or number) is different from the originalSeq
-      return false;
-    }
-    const vertex = sources.shift();
-    reconstructed.push(vertex);
-    graph[vertex].forEach((child) => {
-      //get the node's children to decrement thier steps
-      steps[child]--;
-      if (steps[child] === 0) sources.push(child);
-    });
-  }
+ if (originalSeq[reconstructed.length] !== +sources[0]) {
+ //the next source(or number) is different from the originalSeq
+ return false;
+ }
+ const vertex = sources.shift();
+ reconstructed.push(vertex);
+ graph[vertex].forEach((child) => {
+ //get the node's children to decrement thier steps
+ steps[child]--;
+ if (steps[child] === 0) sources.push(child);
+ });
+ }
 
-  // if reconstructed's size !== orginalSeq's size
-  //there is no way to construct
-  return reconstructed.length === originalSeq.length;
+ // if reconstructed's size !== orginalSeq's size
+ //there is no way to construct
+ return reconstructed.length === originalSeq.length;
 }
 
 console.log(`Can construct: ${canConstruct([1, 2, 3, 4], [[1, 2], [2, 3], [3, 4]])}`)
@@ -661,7 +661,7 @@ console.log(`Can construct: ${canConstruct([3, 1, 4, 2, 5], [[3, 1, 5], [1, 4, 2
 ````
 - In step <b>4</b>, each task can become a source only once and each edge (a rule) will be accessed and removed once. Therefore, the time complexity of the above algorithm will be `O(V+E)`, where `V` is the total number of different characters and `E` is the total number of the rules in the alien language. Since, at most, each pair of words can give us one rule, therefore, we can conclude that the upper bound for the rules is `O(N)`where `N` is the number of words in the input. So, we can say that the time complexity of our algorithm is `O(V+N)`.
 - The space complexity will be `O(V+N)`, since we are storing all of the rules for each character in an <i>adjacency list</i>.
-## 🌟 Minimum Height Trees (hard)
+## Minimum Height Trees (hard)
 https://leetcode.com/problems/minimum-height-trees/
 > We are given an undirected graph that has characteristics of a <b>[k-ary tree](https://en.wikipedia.org/wiki/M-ary_tree)</b>. In such a graph, we can choose any node as the root to make a <b>k-ary tree</b>. The <i>root (or the tree)</i> with the minimum height will be called <b>Minimum Height Tree (MHT)</b>. There can be multiple <b>MHTs</b> for a graph. In this problem, we need to find all those roots which give us <b>MHTs</b>. Write a method to find all <b>MHTs</b> of the given graph and return a list of their roots.
 
@@ -696,65 +696,65 @@ We can implement the above process using the <b>topological sort</b>. Any node w
 
 ````js
 function findTrees(nodes, edges) {
-  if (nodes <= 0) return [];
+ if (nodes <= 0) return [];
 
-  //with only one node, we need to handle it seperatly since it's steps will be 0
-  if (nodes === 1) return [0];
+ //with only one node, we need to handle it seperatly since it's steps will be 0
+ if (nodes === 1) return [0];
 
-  // 1.Initialize the graph
-  //Count of incoming edges
-  const steps = Array(nodes).fill(0);
-  //adjacency list graph
-  const graph = Array(nodes)
-    .fill(0)
-    .map(() => Array());
+ // 1.Initialize the graph
+ //Count of incoming edges
+ const steps = Array(nodes).fill(0);
+ //adjacency list graph
+ const graph = Array(nodes)
+ .fill(0)
+ .map(() => Array());
 
-  // 2. Build the graph
-  edges.forEach((edge) => {
-    let node1 = edge[0];
-    let node2 = edge[1];
+ // 2. Build the graph
+ edges.forEach((edge) => {
+ let node1 = edge[0];
+ let node2 = edge[1];
 
-    //this is an undirected graph, so we will add a link for both nodes
-    graph[node1].push(node2);
-    graph[node2].push(node1);
+ //this is an undirected graph, so we will add a link for both nodes
+ graph[node1].push(node2);
+ graph[node2].push(node1);
 
-    //increment the steps of both nodes
-    steps[node1]++;
-    steps[node2]++;
-  });
+ //increment the steps of both nodes
+ steps[node1]++;
+ steps[node2]++;
+ });
 
-  // 3. Find all leaves(all nodes with 1 step left)
-  const leaves = [];
-  for (let i = 0; i < steps.length; i++) {
-    if (steps[i] === 1) leaves.push(i);
-    // console.log(leaves)
-  }
+ // 3. Find all leaves(all nodes with 1 step left)
+ const leaves = [];
+ for (let i = 0; i < steps.length; i++) {
+ if (steps[i] === 1) leaves.push(i);
+ // console.log(leaves)
+ }
 
-  // 4. Remove leaves level by level and decrement each leaves childrens steps
-  // repeat this until we are left with 1 or 2 nodes(our answer)
-  //any node that has already been a leaf cannot be the root of a MHT
-  //bc it's adjacent non-leaf node will always be the better option
-  let totalNodes = nodes;
-  while (totalNodes > 2) {
-    let leavesSize = leaves.length;
-    totalNodes -= leavesSize;
+ // 4. Remove leaves level by level and decrement each leaves childrens steps
+ // repeat this until we are left with 1 or 2 nodes(our answer)
+ //any node that has already been a leaf cannot be the root of a MHT
+ //bc it's adjacent non-leaf node will always be the better option
+ let totalNodes = nodes;
+ while (totalNodes > 2) {
+ let leavesSize = leaves.length;
+ totalNodes -= leavesSize;
 
-    for (let i = 0; i < leavesSize; i++) {
-      let vertex = leaves.shift();
+ for (let i = 0; i < leavesSize; i++) {
+ let vertex = leaves.shift();
 
-      //get the node's children to decrement thier steps
-      graph[vertex].forEach((child) => {
-        //get the nodes children to decrement thier steps
-        steps[child]--;
-        if (steps[child] === 1) leaves.push(child);
-      });
-    }
-  }
+ //get the node's children to decrement thier steps
+ graph[vertex].forEach((child) => {
+ //get the nodes children to decrement thier steps
+ steps[child]--;
+ if (steps[child] === 1) leaves.push(child);
+ });
+ }
+ }
 
-  // console.log(steps);
-  // console.log(graph);
+ // console.log(steps);
+ // console.log(graph);
 
-  return leaves;
+ return leaves;
 }
 
 console.log(`Roots of MHTs: ${findTrees(5, [[0, 1], [1, 2], [1, 3], [2, 4]])}`)

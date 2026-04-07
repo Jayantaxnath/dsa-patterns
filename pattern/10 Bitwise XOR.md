@@ -2,7 +2,7 @@
 
 <b>XOR</b> is a logical bitwise operator that returns `0` (false) if both bits are the same and returns `1` (true) otherwise. In other words, it only returns `1` if exactly one bit is set to `1` out of the two bits in comparison.
 
-|     A    |     B     |  A xor B  |
+| A | B | A xor B |
 |:---:|:---:|:---:|
 | 0|0|0|
 | 0|1|1|
@@ -18,21 +18,21 @@ A straight forward approach to solve this problem can be:
 2. Subtract all the numbers in the input array from `s1`; this will give us the missing number.
 ````js
 function findMissingNumber(arr) {
-  const n = arr.length + 1
-  
-  //find sum of all numbers from 1 to n
-  let s1 = 0
-  for(let i = 1; i <= n; i++) {
-    s1 += i
-  }
-  
-  //subtract all numbers in input from sum
-  arr.forEach((num) => {
-    s1 -= num
-  })
-  
-  //s1, is now the missing number
-  return s1
+ const n = arr.length + 1
+
+ //find sum of all numbers from 1 to n
+ let s1 = 0
+ for(let i = 1; i <= n; i++) {
+ s1 += i
+ }
+
+ //subtract all numbers in input from sum
+ arr.forEach((num) => {
+ s1 -= num
+ })
+
+ //s1, is now the missing number
+ return s1
 }
 
 findMissingNumber([1,5,2,6,4])//3
@@ -49,23 +49,23 @@ Remember the important property of XOR that it returns 0 if both the bits in com
 3. The missing number can be found by `x1` XOR `x2`.
 ````js
 function findMissingNumber(arr) {
-  const n = arr.length + 1
-  
-  //x1 represents XOR of all values from 1 to n
-  //find sum of all numbers from 1 to n
-  let x1 = 1
-  for(let i = 2; i <= n; i++) {
-    x1 = x1 ^ i
-  }
-  
-  //x2 represents XOR of all values in arr
-  let x2 = arr[0]
-  for(let i = 1; i < n-1; i++) {
-    x2 = x2 ^ arr[i]
-  }
-  
-  //missing number is the xor of x1 and x2
-  return x1 ^ x2
+ const n = arr.length + 1
+
+ //x1 represents XOR of all values from 1 to n
+ //find sum of all numbers from 1 to n
+ let x1 = 1
+ for(let i = 2; i <= n; i++) {
+ x1 = x1 ^ i
+ }
+
+ //x2 represents XOR of all values in arr
+ let x2 = arr[0]
+ for(let i = 1; i < n-1; i++) {
+ x2 = x2 ^ arr[i]
+ }
+
+ //missing number is the xor of x1 and x2
+ return x1 ^ x2
 }
 
 findMissingNumber([1,5,2,6,4])//3
@@ -75,14 +75,14 @@ findMissingNumber([1,5,2,6,4])//3
 Following are some important properties of XOR to remember:
 
 - Taking XOR of a number with itself returns 0, e.g.,
-  - 1 ^ 1 = 0
-  - 29 ^ 29 = 0
+ - 1 ^ 1 = 0
+ - 29 ^ 29 = 0
 - Taking XOR of a number with 0 returns the same number, e.g.,
-  - 1 ^ 0 = 1
-  - 31 ^ 0 = 31
+ - 1 ^ 0 = 1
+ - 31 ^ 0 = 31
 - XOR is Associative & Commutative, which means:
-  - (a ^ b) ^ c = a ^ (b ^ c)
-  - a ^ b = b ^ a
+ - (a ^ b) ^ c = a ^ (b ^ c)
+ - a ^ b = b ^ a
 ## Single Number (easy)
 https://leetcode.com/problems/single-number/
 > In a non-empty array of integers, every number appears twice except for one, find that single number.
@@ -94,35 +94,35 @@ One straight forward solution can be to use a <b>HashMap</b> kind of data struct
 ### using Map class
 ````js
 function findSingleNumber(arr) {
-  const numberMap = new Map()
-  
-  for(let i = 0; i < arr.length; i++) {
-    if(numberMap.has(arr[i])){
-      numberMap.delete(arr[i])
-    } else {
-      numberMap.set(arr[i], 0)
-    }
-  }
-  for(const k of numberMap.keys()){
-    return k
-  }
+ const numberMap = new Map()
+
+ for(let i = 0; i < arr.length; i++) {
+ if(numberMap.has(arr[i])){
+ numberMap.delete(arr[i])
+ } else {
+ numberMap.set(arr[i], 0)
+ }
+ }
+ for(const k of numberMap.keys()){
+ return k
+ }
 }
-  
+
 findSingleNumber([1, 4, 2, 1, 3, 2, 3])//4
 findSingleNumber([7, 9, 7])//9
 ````
 ### using Map object
 ````js
 function singleNumber(arr) {
-  //HashMap
-  let numberMap = {}
-  //if number is not in HashMap, add it
-  for(let i of arr) {
-    numberMap[i] = (numberMap[i] || 0) + 1
-  }
-  //if number is already in HashMap, remove it
-  //number left at the end is out rquired single number
-  return numberMap
+ //HashMap
+ let numberMap = {}
+ //if number is not in HashMap, add it
+ for(let i of arr) {
+ numberMap[i] = (numberMap[i] || 0) + 1
+ }
+ //if number is already in HashMap, remove it
+ //number left at the end is out rquired single number
+ return numberMap
 }
 
 findMissingNumber([1, 4, 2, 1, 3, 2, 3])//4
@@ -139,14 +139,14 @@ So we can XOR all the numbers in the input; duplicate numbers will zero out each
 
 ````js
 function singleNumber(arr) {
-  //So we can XOR all the numbers in the input 
-  //duplicate numbers will zero out each other and we will be left with the single number.
-  let num = 0
-  
-  for(let i = 0; i < arr.length; i++) {
-    num ^= arr[i]
-  }
-  return num
+ //So we can XOR all the numbers in the input 
+ //duplicate numbers will zero out each other and we will be left with the single number.
+ let num = 0
+
+ for(let i = 0; i < arr.length; i++) {
+ num ^= arr[i]
+ }
+ return num
 }
 
 singleNumber([1, 4, 2, 1, 3, 2, 3])//4
@@ -154,7 +154,7 @@ singleNumber([7, 9, 7])//9
 ````
 - Time complexity of this solution is `O(n)` as we iterate through all numbers of the input once.
 - The algorithm runs in constant space `O(1)`.
-## 😕 Two Single Numbers (medium)
+## Two Single Numbers (medium)
 https://leetcode.com/problems/single-number-iii/
 
 > In a non-empty array of numbers, every number appears exactly twice except two numbers that appear only once. Find the two numbers that appear only once.
@@ -176,38 +176,38 @@ We can take any bit which is ‘1’ in `n1xn2` and partition all numbers in the
 
 ````js
 function findSingleNumbers(nums) {
-  //get the XOR of all the numbers
-  
-  let n1xn2 = 0
-  
-  nums.forEach((n)=> {
-    n1xn2 ^= n
-  })
-  
-  //get the rightmost bit that is 1
-  let right = 1
-  while((right & n1xn2) === 0) {
-    //& is bitwise AND
-    //This operator expects two numbers and retuns a number. 
-    //In case they are not numbers, they are cast to numbers.
-    right = right << 1
-    //The left shift operator ( << ) shifts the first operand the specified number of bits to the left.
-    //Excess bits shifted off to the left are discarded. 
-    //Zero bits are shifted in from the right.
-  }
-  
-  let num1 = 0; num2 = 0
-  
-  nums.forEach((n) => {
-    if((n & right) !== 0) {
-      //the bit is set
-      num1 ^= n
-    } else {
-      //the bit is not set
-      num2 ^= n
-    }
-  })
-  return [num1, num2];
+ //get the XOR of all the numbers
+
+ let n1xn2 = 0
+
+ nums.forEach((n)=> {
+ n1xn2 ^= n
+ })
+
+ //get the rightmost bit that is 1
+ let right = 1
+ while((right & n1xn2) === 0) {
+ //& is bitwise AND
+ //This operator expects two numbers and retuns a number. 
+ //In case they are not numbers, they are cast to numbers.
+ right = right << 1
+ //The left shift operator ( << ) shifts the first operand the specified number of bits to the left.
+ //Excess bits shifted off to the left are discarded. 
+ //Zero bits are shifted in from the right.
+ }
+
+ let num1 = 0; num2 = 0
+
+ nums.forEach((n) => {
+ if((n & right) !== 0) {
+ //the bit is set
+ num1 ^= n
+ } else {
+ //the bit is not set
+ num2 ^= n
+ }
+ })
+ return [num1, num2];
 }
 
 findSingleNumbers([1, 4, 2, 1, 3, 5, 6, 2, 3, 5])//[4, 6]
@@ -215,7 +215,7 @@ findSingleNumbers([2, 1, 3, 2])//[1,3]
 ````
 - The time complexity of this solution is `O(n)` where `n` is the number of elements in the input array.
 - The algorithm runs in constant space `O(1)`.
-## 😕 Complement of Base 10 Number (medium)
+## Complement of Base 10 Number (medium)
 https://leetcode.com/problems/complement-of-base-10-integer/
 
 Every non-negative integer N has a binary representation, for example, 8 can be represented as “1000” in binary and 7 as “0111” in binary.
@@ -253,32 +253,32 @@ We can use the above fact to find the complement of any number.
 
 ````js
 function calculateBitwiseComplement(n) {
-  // count number of total bits in 'num'
-  let bitCount = 0
-  let num = n
-  
-  while(num > 0){
-    bitCount++
-    num = num >> 1
-  }
-  
-   // for a number which is a complete power of '2' i.e., it can be written as pow(2, n), if we
-  // subtract '1' from such a number, we get a number which has 'n' least significant bits set to '1'.
-  // For example, '4' which is a complete power of '2', and '3' (which is one less than 4) has a binary 
-  // representation of '11' i.e., it has '2' least significant bits set to '1' 
-  let allBitsSet = Math.pow(2, bitCount) -1
-  
-  // from the solution description: complement = number ^ allBitsSet
-  return n ^ allBitsSet
+ // count number of total bits in 'num'
+ let bitCount = 0
+ let num = n
+
+ while(num > 0){
+ bitCount++
+ num = num >> 1
+ }
+
+ // for a number which is a complete power of '2' i.e., it can be written as pow(2, n), if we
+ // subtract '1' from such a number, we get a number which has 'n' least significant bits set to '1'.
+ // For example, '4' which is a complete power of '2', and '3' (which is one less than 4) has a binary 
+ // representation of '11' i.e., it has '2' least significant bits set to '1' 
+ let allBitsSet = Math.pow(2, bitCount) -1
+
+ // from the solution description: complement = number ^ allBitsSet
+ return n ^ allBitsSet
 }
 
-calculateBitwiseComplement(8)//7,  is 1000 in binary, its complement is 0111 in binary, which is 7 in base-10.
+calculateBitwiseComplement(8)//7, is 1000 in binary, its complement is 0111 in binary, which is 7 in base-10.
 calculateBitwiseComplement(10)//5, 10 is 1010 in binary, its complement is 0101 in binary, which is 5 in base-10.
 ````
 
 - Time complexity of this solution is `O(b)`where `b` is the number of bits required to store the given number.
 - Space complexity of this solution is `O(1)`.
-## 🌟 Flip Binary Matrix(hard)
+## Flip Binary Matrix(hard)
 https://leetcode.com/problems/flipping-an-image/
 > Given a binary matrix representing an image, we want to flip the image horizontally, then invert it.
 > 
@@ -291,16 +291,16 @@ https://leetcode.com/problems/flipping-an-image/
 
 ````js
 function flipAndInvertImage(matrix) {
-  let c = matrix.length
-  
-  for(let row = 0; row < c; ++row){
-    for(let col = 0; col < Math.floor((c+1)/2); ++col){
-      let temp = matrix[row][col] ^ 1
-      matrix[row][col] = matrix[row][c - 1 -col] ^ 1
-      matrix[row][c - 1 - col] = temp
-    }
-  }
-  return matrix
+ let c = matrix.length
+
+ for(let row = 0; row < c; ++row){
+ for(let col = 0; col < Math.floor((c+1)/2); ++col){
+ let temp = matrix[row][col] ^ 1
+ matrix[row][col] = matrix[row][c - 1 -col] ^ 1
+ matrix[row][c - 1 - col] = temp
+ }
+ }
+ return matrix
 }
 
 flipAndInvertImage([[1,0,1], [1,1,1], [0,1,1]])//First reverse each row: [[1,0,1],[1,1,1],[1,1,0]]. Then, invert the image: [[0,1,0],[0,0,0],[0,0,1]]
